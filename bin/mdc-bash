@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+set -e
+
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+
+$basedir/bin/mdc exec webserver bash "$@"

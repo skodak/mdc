@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   webserver:
     volumes:
@@ -6,4 +6,6 @@ services:
     depends_on:
       - mailhog
   mailhog:
-    image: mailhog/mailhog
+#    image: mailhog/mailhog
+# switch to line above after they add official support for arm64
+    image: teawithfruit/mailhog

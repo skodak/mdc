@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 basedir="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
-initcmd="bin/moodle-docker-compose exec -T webserver php admin/tool/behat/cli/init.php"
+initcmd="bin/mdc exec -T webserver php admin/tool/behat/cli/init.php"
 
 export MOODLE_DOCKER_WWWROOT="${basedir}/moodle"
 export MOODLE_DOCKER_BROWSER="chrome"
@@ -31,9 +31,9 @@ else
 fi
 
 echo "Pulling docker images"
-$basedir/bin/moodle-docker-compose pull
+$basedir/bin/mdc pull
 echo "Starting up container"
-$basedir/bin/moodle-docker-compose up -d
+$basedir/bin/mdc up -d
 echo "Waiting for DB to come up"
 $basedir/bin/moodle-docker-wait-for-db
 echo "Waiting for Moodle app to come up"

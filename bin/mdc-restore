@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+set -e
+
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+
+if [ -z "$1" ];
+then
+    echo "Backup name is required"
+    exit 1
+fi
+
+$basedir/bin/mdc exec webserver bash --login /root/restore.sh $1
+$basedir/bin/mdc exec db bash mdc_db_restore.sh $1

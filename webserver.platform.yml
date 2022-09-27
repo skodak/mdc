@@ -1,0 +1,4 @@
+version: "2.4"
+services:
+  webserver:
+    platform: "${MOODLE_DOCKER_WEB_PLATFORM}"

@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   webserver:
     environment:
@@ -17,3 +17,7 @@ services:
       MYSQL_USER: moodle
       MYSQL_PASSWORD: "m@0dl3ing"
       MYSQL_DATABASE: moodle
+    volumes:
+      - "${ASSETDIR}/db/mariadb_wait.sh:/mdc_db_wait.sh"
+      - "${ASSETDIR}/db/mariadb_backup.sh:/mdc_db_backup.sh"
+      - "${ASSETDIR}/db/mariadb_restore.sh:/mdc_db_restore.sh"

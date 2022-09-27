@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+set -e
+
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+
+# NVM requires bash rc file.
+$basedir/bin/mdc exec webserver /bin/bash -c "source /root/.bashrc && node ./node_modules/.bin/grunt $*"

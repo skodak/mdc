@@ -13,4 +13,4 @@ else
 fi
 
 echo "Stopping down container"
-$basedir/bin/moodle-docker-compose down
+$basedir/bin/mdc down

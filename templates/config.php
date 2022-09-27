@@ -4,6 +4,10 @@ unset($CFG);
 global $CFG;
 $CFG = new stdClass();
 
+ini_set('error_log', '/var/www/php_error.log');
+
+$CFG->site_is_public = false;
+
 $CFG->dbtype    = getenv('MOODLE_DOCKER_DBTYPE');
 $CFG->dblibrary = 'native';
 $CFG->dbhost    = 'db';
@@ -27,11 +31,19 @@ if (!empty($port)) {
         $CFG->wwwroot .= ":{$port}";
     }
 }
+if (strpos($CFG->wwwroot, 'https://') !== 0) {
+    $CFG->cookiesecure = false;
+}
 $CFG->dataroot  = '/var/www/moodledata';
 $CFG->admin     = 'admin';
 $CFG->directorypermissions = 0777;
 $CFG->smtphosts = 'mailhog:1025';
 $CFG->noreplyaddress = 'noreply@example.com';
+
+if (getenv('COMPOSE_PROJECT_NAME')) {
+    // Allow coexisting of sites on different ports.
+    $CFG->sessioncookie = getenv('COMPOSE_PROJECT_NAME');
+}
 
 // Debug options - possible to be controlled by flag in future..
 $CFG->debug = (E_ALL | E_STRICT); // DEBUG_DEVELOPER
@@ -97,4 +109,8 @@ if (getenv('MOODLE_DOCKER_PHPUNIT_EXTRAS')) {
     define('TEST_ENROL_LDAP_DOMAIN', 'ou=Users,dc=openstack,dc=org');
 }
 
-require_once(__DIR__ . '/lib/setup.php');
+if (__FILE__ === '/var/www/config-docker.php') {
+    require_once(__DIR__ . '/html/lib/setup.php');
+} else {
+    require_once(__DIR__ . '/lib/setup.php');
+}

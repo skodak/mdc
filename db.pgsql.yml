@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   webserver:
     environment:
@@ -9,3 +9,7 @@ services:
       POSTGRES_USER: moodle
       POSTGRES_PASSWORD: "m@0dl3ing"
       POSTGRES_DB: moodle
+    volumes:
+      - "${ASSETDIR}/db/pgsql_wait.sh:/mdc_db_wait.sh"
+      - "${ASSETDIR}/db/pgsql_backup.sh:/mdc_db_backup.sh"
+      - "${ASSETDIR}/db/pgsql_restore.sh:/mdc_db_restore.sh"

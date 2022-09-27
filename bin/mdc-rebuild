@@ -1,0 +1,19 @@
+#!/usr/bin/env bash
+set -e
+
+# First find out if this was called from symlink,
+# then find the real path of parent directory.
+# This is needed because macOS does not have GNU realpath.
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+
+$basedir/bin/mdc down
+
+configfilename="moodle-docker-compose.yml"
+if [ -f $configfilename ];
+then
+    rm $configfilename
+fi
+$basedir/bin/mdc up -d
+
+$basedir/bin/mdc exec db bash mdc_db_wait.sh

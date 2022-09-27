@@ -1,0 +1,5 @@
+version: "2.4"
+services:
+  db:
+    volumes:
+      - "${MOODLE_DOCKER_BACKUPS}:/backups"

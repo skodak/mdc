@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   webserver:
     image: "moodlehq/moodle-php-apache:${MOODLE_DOCKER_PHP_VERSION}"
@@ -7,7 +7,14 @@ services:
     volumes:
       - "${MOODLE_DOCKER_WWWROOT}:/var/www/html"
       - "${ASSETDIR}/web/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf"
+      - "${BASEDIR}/templates/config.php:/var/www/config-docker.php"
+      - "${ASSETDIR}/web/nvm_install.sh:/root/nvm_install.sh"
+      - "${ASSETDIR}/web/npm_install.sh:/root/npm_install.sh"
+      - "${ASSETDIR}/web/php_wrapper:/root/php_wrapper"
+      - "${ASSETDIR}/web/backup.sh:/root/backup.sh"
+      - "${ASSETDIR}/web/restore.sh:/root/restore.sh"
     environment:
+      MOODLE_DOCKER_SITE_RUNNING: true
       MOODLE_DOCKER_DBNAME: moodle
       MOODLE_DOCKER_DBUSER: moodle
       MOODLE_DOCKER_DBPASS: "m@0dl3ing"

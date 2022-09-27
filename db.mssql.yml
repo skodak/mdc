@@ -1,4 +1,4 @@
-version: "2"
+version: "2.4"
 services:
   webserver:
     environment:
@@ -9,3 +9,7 @@ services:
     environment:
         ACCEPT_EULA: "y"
         SA_PASSWORD: "m@0dl3ing"
+    volumes:
+      - "${ASSETDIR}/db/mssql_wait.sh:/mdc_db_wait.sh"
+      - "${ASSETDIR}/db/mssql_backup.sh:/mdc_db_backup.sh"
+      - "${ASSETDIR}/db/mssql_restore.sh:/mdc_db_restore.sh"

@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -e
+
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+
+configfilename="moodle-docker-compose.yml"
+if [ -f $configfilename ];
+then
+    rm $configfilename
+fi
+
+$basedir/bin/mdc up -d "$@"
+
+$basedir/bin/mdc exec db bash mdc_db_wait.sh

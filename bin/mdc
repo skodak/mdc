@@ -1,34 +1,40 @@
 #!/usr/bin/env bash
 set -e
 
+# Test if we have Docker Compose V2.
+ver=$(docker compose version > /dev/null 2>&1 && docker compose version --short) || true
+if [[ $ver =~ ^v?2 ]]; then
+  dockercompose_cmd="docker compose"
+else
+  echo 'Compose v2 is not available in Docker CLI, falling back to use docker-compose script'
+  dockercompose_cmd="docker-compose"
+fi
+
 # First find out if this was called from symlink,
 # then find the real path of parent directory.
 # This is needed because macOS does not have GNU realpath.
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 
-if [ ! -d "$MOODLE_DOCKER_WWWROOT" ];
+# Use moodle-docker-compose.yml as much as possible,
+# but allow devs to make tweaks in it,
+# it is deleted only from bin/docker_up and bin/docker_rebuild.
+finalconfigfilename="moodle-docker-compose.yml"
+if [ -f $finalconfigfilename ];
 then
-    echo 'Error: $MOODLE_DOCKER_WWWROOT is not set or not an existing directory'
-    exit 1
+    $dockercompose_cmd -f $finalconfigfilename "$@"
+    exit 0
 fi
 
-if [ -z "$MOODLE_DOCKER_DB" ];
-then
-    echo 'Error: $MOODLE_DOCKER_DB is not set'
-    exit 1
-fi
+# Load all environment settings.
+source "${basedir}/bin/include/env.sh"
 
+export BASEDIR="${basedir}"
 export ASSETDIR="${basedir}/assets"
 
 # Test if we have docker compose v2, and keep quiet if we don't.
-ver=$(docker compose version > /dev/null 2>&1 && docker compose version --short) || true
-if [[ $ver =~ ^v?2 ]]; then
-  dockercompose="docker compose"
-else
-  echo 'Compose v2 is not available in Docker CLI, falling back to use docker-compose script'
-  dockercompose="docker-compose"
-fi
+dockercompose=""
+
 dockercompose="${dockercompose} -f ${basedir}/base.yml"
 dockercompose="${dockercompose} -f ${basedir}/service.mail.yml"
 
@@ -48,6 +54,7 @@ then
 fi
 
 # Support PHP version overrides for DB not available any more.
+# use extra configuration file ./moodle-docker.yml instead in special cases.
 
 # Expose DB port if requested.
 if [[ $MOODLE_DOCKER_DB_PORT == *":"* ]] || [[ $MOODLE_DOCKER_DB_PORT -gt 0 ]]
@@ -62,6 +69,16 @@ then
     then
         dockercompose="${dockercompose} -f ${filename}"
     fi
+fi
+
+# Force platform if requested.
+if [ ! -z "$MOODLE_DOCKER_WEB_PLATFORM" ];
+then
+    dockercompose="${dockercompose} -f ${basedir}/webserver.platform.yml"
+fi
+if [ ! -z "$MOODLE_DOCKER_DB_PLATFORM" ];
+then
+    dockercompose="${dockercompose} -f ${basedir}/db.platform.yml"
 fi
 
 # Fix mobile app deprecated variables
@@ -183,10 +200,37 @@ if [[ ! -z "$MOODLE_DOCKER_BEHAT_FAILDUMP" ]];
 then
     if [ ! -d "$MOODLE_DOCKER_BEHAT_FAILDUMP" ];
     then
-        echo 'Error: $MOODLE_DOCKER_BEHAT_FAILDUMP is not an existing directory'
+        echo 'Error: MOODLE_DOCKER_BEHAT_FAILDUMP is not an existing directory'
         exit 1
     fi
     dockercompose="${dockercompose} -f ${basedir}/behat-faildump.yml"
+fi
+
+#  Backups directory
+if [[ ! -z "$MOODLE_DOCKER_BACKUPS" ]];
+then
+    if [ ! -d "$MOODLE_DOCKER_BACKUPS" ];
+    then
+        echo 'Error: MOODLE_DOCKER_BACKUPS is not an existing directory'
+        exit 1
+    fi
+    dockercompose="${dockercompose} -f ${basedir}/webserver.backups.yml"
+    dockercompose="${dockercompose} -f ${basedir}/db.backups.yml"
+fi
+
+#  Backups directory
+if [[ ! -z "$MOODLE_DOCKER_PHP_ERROR_LOG" ]];
+then
+    if [ ! -f "$MOODLE_DOCKER_PHP_ERROR_LOG" ];
+    then
+        touch $MOODLE_DOCKER_PHP_ERROR_LOG
+    fi
+    if [ ! -f "$MOODLE_DOCKER_PHP_ERROR_LOG" ];
+    then
+        echo 'Error: MOODLE_DOCKER_PHP_ERROR_LOG file cannot be created'
+        exit 1
+    fi
+    dockercompose="${dockercompose} -f ${basedir}/webserver.phperrorlog.yml"
 fi
 
 # Webserver host
@@ -220,4 +264,24 @@ then
   dockercompose="${dockercompose} -f ${localfile}"
 fi
 
-$dockercompose "$@"
+# Finally any other custom overrides
+filename="moodle-docker.yml"
+if [ -f $filename ];
+then
+    dockercompose="${dockercompose} -f ${filename}"
+fi
+
+
+# Always try to create the final config file,
+# use it if docker is configured via new env file.
+$dockercompose_cmd $dockercompose config > ${finalconfigfilename} || rm ${finalconfigfilename} || false
+if [ -f $finalconfigfilename ];
+then
+    filename="moodle-docker.env"
+    if [ -f $filename ];
+    then
+      dockercompose=" -f ${finalconfigfilename}"
+    fi
+fi
+
+$dockercompose_cmd $dockercompose "$@"
