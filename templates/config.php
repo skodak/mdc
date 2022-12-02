@@ -117,6 +117,15 @@ if (getenv('MOODLE_DOCKER_PHPUNIT_EXTRAS')) {
     define('TEST_ENROL_LDAP_DOMAIN', 'ou=Users,dc=openstack,dc=org');
 }
 
+if (getenv('MOODLE_DOCKER_BBB_MOCK')) {
+    if (property_exists($CFG, 'behat_wwwroot')) {
+        $mockhash = sha1($CFG->behat_wwwroot);
+    } else {
+        $mockhash = sha1($CFG->wwwroot);
+    }
+    define('TEST_MOD_BIGBLUEBUTTONBN_MOCK_SERVER', "http://bbbmock/{$mockhash}");
+}
+
 if (__FILE__ === '/var/www/config-docker.php') {
     require_once(__DIR__ . '/html/lib/setup.php');
 } else {
