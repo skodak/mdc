@@ -45,7 +45,7 @@ if (strpos($CFG->wwwroot, 'https://') !== 0) {
 $CFG->dataroot  = '/var/www/moodledata';
 $CFG->admin     = 'admin';
 $CFG->directorypermissions = 0777;
-$CFG->smtphosts = 'mailhog:1025';
+$CFG->smtphosts = 'mailpit:1025';
 $CFG->noreplyaddress = 'noreply@example.com';
 
 if (getenv('COMPOSE_PROJECT_NAME')) {

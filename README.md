@@ -7,7 +7,7 @@ This repository contains Docker configuration aimed at Moodle developers and tes
 ## Features:
 * All supported database servers (PostgreSQL, MySQL, Microsoft SQL Server, Oracle XE)
 * Behat/Selenium configuration for Firefox and Chrome
-* Catch-all smtp server and web interface to messages using [MailHog](https://github.com/mailhog/MailHog/)
+* Catch-all smtp server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
 * All PHP Extensions enabled configured for external services (e.g. solr, ldap)
 * All supported PHP versions
 * Configuration is possible via _./moodle-docker.env_ file or environment variables

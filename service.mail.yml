@@ -2,10 +2,8 @@ version: "2.4"
 services:
   webserver:
     volumes:
-      - "${ASSETDIR}/web/apache2_mailhog.conf:/etc/apache2/conf-enabled/apache2_mailhog.conf"
+      - "${ASSETDIR}/web/apache2_mailpit.conf:/etc/apache2/conf-enabled/apache2_mailpit.conf"
     depends_on:
-      - mailhog
-  mailhog:
-#    image: mailhog/mailhog
-# switch to line above after they add official support for arm64
-    image: teawithfruit/mailhog
+      - mailpit
+  mailpit:
+    image: axllent/mailpit
