@@ -17,7 +17,7 @@ This repository contains Docker configuration aimed at Moodle developers and tes
 ## Prerequisites
 * [Docker](https://docs.docker.com) and [Docker Compose](https://docs.docker.com/compose/cli-command/#installing-compose-v2) installed if your Docker CLI version does not support `docker compose` command.
 * 3.25GB of RAM (if you choose [Microsoft SQL Server](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup#prerequisites) as db server)
-* When using _Docker for Mac_ you should enable _Use the new Virtualization framework_ and _Enable VirtioFS accelerated directory sharing_ in _Experimental Features_ to significantly improve performance.
+* When using _Docker for Mac_ you should use _gRPC FUSE_  as file sharing implementation, because _VirtioFS_ is still buggy.
 
 ## Quick start
 
