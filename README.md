@@ -257,7 +257,7 @@ First you need to install appropriate node and npm version in webserver containe
 
 ```bash
 cd /path/with/moodle-docker.env/
-node-init 16
+node-init
 ```
 
 To run grunt use:
@@ -266,9 +266,6 @@ To run grunt use:
 cd /path/with/moodle-docker.env/
 grunt
 ```
-
-Note: some node modules may not be still compatible with Apple M1/M2 processors. To work around it,
-you may try to use `MOODLE_DOCKER_WEB_PLATFORM=linux/amd64` environment setting.
 
 ## Stop and restart containers
 
