@@ -206,7 +206,7 @@ a browser will pop up, and you will see the tests execute.
 
 ### Use containers for running behat tests for the Moodle App
 
-In order to run Behat tests for the Moodle App, you need to install the [local_moodlemobileapp](https://github.com/moodlehq/moodle-local_moodlemobileapp) plugin in your Moodle site. Everything else should be the same as running standard Behat tests for Moodle. Make sure to filter tests using the `@app` tag.
+In order to run Behat tests for the Moodle App, you need to install the [local_moodleappbehat](https://github.com/moodlehq/moodle-local_moodleappbehat) plugin in your Moodle site. Everything else should be the same as running standard Behat tests for Moodle. Make sure to filter tests using the `@app` tag.
 
 The Behat tests will be run against a container serving the mobile application, you have two options here:
 
@@ -217,9 +217,9 @@ The Behat tests will be run against a container serving the mobile application, 
 For both options, you also need to set `MOODLE_DOCKER_BROWSER` to "chrome".
 
 ```bash
-# Install local_moodlemobileapp plugin
+# Install local_moodleappbehat plugin
 cd /path/to/moodle
-git clone https://github.com/moodlehq/moodle-local_moodlemobileapp local/moodlemobileapp
+git clone https://github.com/moodlehq/moodle-local_moodleappbehat "$MOODLE_DOCKER_WWWROOT/local/moodleappbehat"
 
 # Initialize behat environment
 cd /path/with/moodle-docker.env/
@@ -249,7 +249,7 @@ By all means, if you don't want to have npm installed locally you can go full Do
 docker run --volume $MOODLE_DOCKER_APP_PATH:/app --workdir /app bash -c "npm install npm@7 -g && npm ci"
 ```
 
-You can learn more about writing tests for the app in [Acceptance testing for the Moodle App](https://docs.moodle.org/dev/Acceptance_testing_for_the_Moodle_App).
+You can learn more about writing tests for the app in [Acceptance testing for the Moodle App](https://moodledev.io/general/app/development/testing/acceptance-testing).
 
 ## Use docker to run grunt
 
