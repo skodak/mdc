@@ -20,6 +20,7 @@ services:
       MOODLE_DOCKER_DBPASS: "m@0dl3ing"
       MOODLE_DOCKER_BROWSER: firefox
       MOODLE_DOCKER_WEB_HOST: "${MOODLE_DOCKER_WEB_HOST}"
+      COMPOSER_ALLOW_SUPERUSER: 1
   exttests:
     image: moodlehq/moodle-exttests
     volumes:
