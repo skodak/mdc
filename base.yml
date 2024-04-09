@@ -13,7 +13,7 @@ services:
       - "${ASSETDIR}/web/backup.sh:/root/backup.sh"
       - "${ASSETDIR}/web/restore.sh:/root/restore.sh"
     environment:
-      MOODLE_DOCKER_SITE_RUNNING: true
+      MOODLE_DOCKER_RUNNING: 1
       MOODLE_DOCKER_DBNAME: moodle
       MOODLE_DOCKER_DBUSER: moodle
       MOODLE_DOCKER_DBPASS: "m@0dl3ing"

@@ -29,7 +29,7 @@ This repository contains Docker configuration aimed at Moodle developers and tes
 or add following code to the very start of your config.php to use default docker config:
 ```php
 <?php  // Moodle configuration file
-if (getenv('MOODLE_DOCKER_SITE_RUNNING', true)) {
+if (getenv('MOODLE_DOCKER_RUNNING', true)) {
     require('/var/www/config-docker.php');
     return;
 }
@@ -326,6 +326,19 @@ It is also possible to use environment variables instead of the environment file
     export MOODLE_DOCKER_WWWROOT=/path/to/moodle
     export MOODLE_DOCKER_DB=pgsql
     mdc up -d
+```
+
+In addition to that, `MOODLE_DOCKER_RUNNING=1` env variable is defined and available
+in the webserver container to flag being run by `moodle-docker`. Developer
+can use this to conditionally make changes in `config.php`. The common case is
+to load test-specific configuration:
+```
+// Load moodle-docker config file if we are in moodle-docker environment
+if (getenv('MOODLE_DOCKER_RUNNING')) {
+    require_once($CFG->dirroot . '/config.docker-template.php');
+}
+
+require_once($CFG->dirroot . '/lib/setup.php'); // Do not edit.
 ```
 
 ## Local customisations
