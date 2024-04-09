@@ -334,7 +334,6 @@ In some situations you may wish to add local customisations, such as including a
 This can be accomplished by specifying a `local.yml`, which will be added in and loaded with the existing yml configuration files automatically. For example:
 
 ``` file="local.yml"
-version: "2"
 services:
 
   # Add the adminer image at the latest tag on port 8080:8080
@@ -553,7 +552,6 @@ MOODLE_DOCKER_DB=pgsql
 ```
 3. Add `moodle-docker.yaml` file:
 ```yaml
-version: "2.4"
 services:
   webserver:
     ports:
