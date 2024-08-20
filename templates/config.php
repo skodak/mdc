@@ -74,7 +74,7 @@ $CFG->behat_dataroot  = '/var/www/behatdata';
 $CFG->behat_prefix = 'b_';
 $CFG->behat_profiles = array(
     'default' => array(
-        'browser' => getenv('MOODLE_DOCKER_BROWSER'),
+        'browser' => (getenv('MOODLE_DOCKER_BROWSER') === 'chromium') ? 'chrome' : getenv('MOODLE_DOCKER_BROWSER'),
         'wd_host' => 'http://selenium:4444/wd/hub',
     ),
 );

@@ -108,6 +108,9 @@ IF "%MOODLE_DOCKER_BROWSER_TAG%"=="" (
        IF "%MOODLE_DOCKER_BROWSER_NAME%"=="chrome" (
                SET MOODLE_DOCKER_BROWSER_TAG=3
        )
+       IF "%MOODLE_DOCKER_BROWSER_NAME%"=="chromium" (
+               SET MOODLE_DOCKER_BROWSER_TAG=4
+       )
 )
 
 IF NOT "%MOODLE_DOCKER_BROWSER_NAME%"=="firefox" (

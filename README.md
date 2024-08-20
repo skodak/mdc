@@ -18,7 +18,6 @@ This repository contains Docker configuration aimed at Moodle developers and tes
 * [Docker](https://docs.docker.com) and [Docker Compose](https://docs.docker.com/compose/cli-command/#installing-compose-v2) installed if your Docker CLI version does not support `docker compose` command.
 * It's recommended to always run the latest versions of each, but at the minimum Docker v20.10.15 and Docker Compose v2.5.0 should be used.
 * 3.25GB of RAM (if you choose [Microsoft SQL Server](https://docs.microsoft.com/en-us/sql/linux/sql-server-linux-setup#prerequisites) as db server)
-* When using _Docker for Mac_ you should use _gRPC FUSE_  as file sharing implementation, because _VirtioFS_ is still buggy.
 
 ## Quick start
 
@@ -149,6 +148,13 @@ mdc exec webserver php -d pcov.enabled=1 -d pcov.directory=. vendor/bin/phpunit 
 * See available [Command-Line Options](https://phpunit.readthedocs.io/en/9.5/textui.html#textui-clioptions) for further info
 
 ## Use docker for running Behat tests
+
+NOTE: On Macs with M processor configure MDC to use Chromium browser instead of Chrome.
+
+```
+# Specifies Chromium to be used in behat
+MOODLE_DOCKER_BROWSER=chromium:4.23.1
+```
 
 To initialise the Behat test environment execute `behat-init` script: 
 
@@ -303,9 +309,9 @@ first call `mdc-down`, then update the environment file and finally start the co
 | `MOODLE_DOCKER_WWWROOT`                   | no        | path on your file system                                                                 | current directory if ./_moodle-docker.env_ file exists                               | The path to the Moodle codebase you intend to test.                                                                                                                                                                                                                                                                    |
 | `MOODLE_DOCKER_DB_VERSION`                | no        | Docker tag - see relevant database page on docker-hub                                    | mysql: 8.0 <br/>pgsql: 13 <br/>mariadb: 10.7 <br/>mssql: 2017-latest <br/>oracle: 21 | The database server docker image tag                                                                                                                                                                                                                                                                                   |
 | `MOODLE_DOCKER_PHP_VERSION`               | no        | 8.1, 8.0, 7.4, 7.3, 7.2, 7.1, 7.0, 5.6                                                   | 8.0                                                                                  | The php version to use                                                                                                                                                                                                                                                                                                 |
-| `MOODLE_DOCKER_BROWSER`                   | no        | firefox, chrome,  firefox:&lt;tag&gt;, chrome:&lt;tag&gt;                                | firefox:3                                                                            | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. e.g. firefox:2.53.1 can be used to run with older versions of Moodle (<3.5)                                                                                                                    |
+| `MOODLE_DOCKER_BROWSER`                   | no        | firefox, chrome, chromium  firefox:&lt;tag&gt;, chrome:&lt;tag&gt;                       | firefox:3                                                                            | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. e.g. firefox:2.53.1 can be used to run with older versions of Moodle (<3.5)                                                                                                                    |
 | `MOODLE_DOCKER_PHPUNIT_EXTERNAL_SERVICES` | no        | any value                                                                                | not set                                                                              | If set, dependencies for memcached, redis, solr, and openldap are added                                                                                                                                                                                                                                                |
-| `MOODLE_DOCKER_BBB_MOCK`                  | no        | any value                             | not set       | If set the BigBlueButton mock image is started and configured                |
+| `MOODLE_DOCKER_BBB_MOCK`                  | no        | any value                                                                                | not set       | If set the BigBlueButton mock image is started and configured                |
 | `MOODLE_DOCKER_BEHAT_FAILDUMP`            | no        | Path on your file system                                                                 | not set                                                                              | Behat faildumps are already available at http://localhost:8000/_/faildumps/ by default, this allows for mapping a specific filesystem folder to retrieve the faildumps in bulk / automated ways                                                                                                                        |
 | `MOODLE_DOCKER_PHP_ERROR_LOG`             | no        | Path to PHP error log on your file system                                                | not set                                                                              |                                                                                                                                                                                                                                                                                                                        |
 | `MOODLE_DOCKER_BACKUPS`                   | no        | Path to backup directory on your file system                                             | not set                                                                              |                                                                                                                                                                                                                                                                                                                        |

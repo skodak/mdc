@@ -168,6 +168,9 @@ then
     elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chrome" ]];
     then
         MOODLE_DOCKER_BROWSER_TAG=3
+    elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chromium" ]];
+    then
+        MOODLE_DOCKER_BROWSER_TAG=4
     fi
 fi
 
