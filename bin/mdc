@@ -196,6 +196,12 @@ then
     dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
 fi
 
+# Browser debug port
+if [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT == *":"* ]] || [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT -gt 0 ]]
+then
+    dockercompose="${dockercompose} -f ${basedir}/selenium.browser.debug.yml"
+fi
+
 # External services
 if [[ ! -z "$MOODLE_DOCKER_PHPUNIT_EXTERNAL_SERVICES" ]];
 then

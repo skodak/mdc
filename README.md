@@ -211,6 +211,48 @@ in _Screen Sharing_ application. You will be prompted for a password, the passwo
 You should be able to see an empty Desktop. When you run any Behat tests with @javascript tag
 a browser will pop up, and you will see the tests execute.
 
+### Using Browser debug console to view Behat tests in headless Chrome
+
+```
+MOODLE_DOCKER_BROWSER=chromium:4.23.1
+# Instruct Chrome to expose a debugging port
+MOODLE_DOCKER_BROWSER_DEBUG_PORT=9222
+```
+
+Tweak config.php to use chrome or chromium.
+
+```php
+$CFG->behat_profiles = array(
+    'default' => array(
+        'browser' => (getenv('MOODLE_DOCKER_BROWSER') === 'chromium') ? 'chrome' : getenv('MOODLE_DOCKER_BROWSER'),
+        'wd_host' => 'http://selenium:4444/wd/hub',
+        'capabilities' => [
+            'extra_capabilities' => [
+                'chromeOptions' => [
+                    'args' => [
+                        'no-sandbox',
+                        'headless=new',
+                        'no-gpu',
+                        'remote-debugging-port=9222', // Do not change even if MOODLE_DOCKER_BROWSER_DEBUG_PORT different
+                    ],
+                ],
+            ],
+        ],
+    ),
+);
+```
+
+Run port forwarder from selected port in MOODLE_DOCKER_BROWSER_DEBUG_PORT to internal 9222:
+```bash
+cd /path/to/moodle
+selenium-debug
+```
+
+1. Open Chrome and go to chrome://inspect
+2. add localhost:MOODLE_DOCKER_BROWSER_DEBUG_PORT if different from 9222
+3. start behat run
+3. Click on Remote Target link with your session 
+
 ### Use containers for running behat tests for the Moodle App
 
 In order to run Behat tests for the Moodle App, you need to install the [local_moodleappbehat](https://github.com/moodlehq/moodle-local_moodleappbehat) plugin in your Moodle site. Everything else should be the same as running standard Behat tests for Moodle. Make sure to filter tests using the `@app` tag.
