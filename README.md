@@ -12,6 +12,7 @@ This repository contains Docker configuration aimed at Moodle developers and tes
 * All supported PHP versions
 * Configuration is possible via _./moodle-docker.env_ file or environment variables
 * Full support for macOS with Apple M1/M2 CPU
+* Windows is not supported at all
 * Backed by [automated tests](https://travis-ci.com/moodlehq/moodle-docker/branches)
 
 ## Prerequisites
