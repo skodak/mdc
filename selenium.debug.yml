@@ -1,7 +1,6 @@
 services:
   selenium:
     ports:
-      - "${MOODLE_DOCKER_SELENIUM_VNC_PORT}:5900"
-    environment:
-        # Workaround for https://github.com/SeleniumHQ/docker-selenium/issues/227
-        "no_proxy": localhost
+      - "$MOODLE_DOCKER_BROWSER_DEBUG_PORT:9223"
+    volumes:
+      - "${ASSETDIR}/selenium/debug_forward.sh:/debug_forward.sh"

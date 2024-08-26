@@ -124,13 +124,13 @@ then
     then
         MOODLE_DOCKER_SELENIUM_VNC_PORT=127.0.0.1:$MOODLE_DOCKER_SELENIUM_VNC_PORT
     fi
-    dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
+    dockercompose="${dockercompose} -f ${basedir}/selenium.vnc.yml"
 fi
 
 # Browser debug port
 if [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT == *":"* ]] || [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT -gt 0 ]]
 then
-    dockercompose="${dockercompose} -f ${basedir}/selenium.browser.debug.yml"
+    dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
 fi
 
 # External services
