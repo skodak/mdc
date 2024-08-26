@@ -7,8 +7,8 @@ services:
     volumes:
       - /dev/shm:/dev/shm
     environment:
-      SCREEN_WIDTH: 2560
-      SCREEN_HEIGHT: 1600
+      SCREEN_WIDTH: 2600
+      SCREEN_HEIGHT: 1640
       # Allow new behat after CTRL-C, the aborted sessions will time out in 300 seconds by default.
       SE_NODE_MAX_SESSIONS: 8
       SE_NODE_OVERRIDE_MAX_SESSIONS: true
