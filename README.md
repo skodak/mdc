@@ -254,53 +254,6 @@ selenium-debug
 3. start behat run
 3. Click on Remote Target link with your session 
 
-### Use containers for running behat tests for the Moodle App
-
-In order to run Behat tests for the Moodle App, you need to install the [local_moodleappbehat](https://github.com/moodlehq/moodle-local_moodleappbehat) plugin in your Moodle site. Everything else should be the same as running standard Behat tests for Moodle. Make sure to filter tests using the `@app` tag.
-
-The Behat tests will be run against a container serving the mobile application, you have two options here:
-
-1. Use a Docker image that includes the application code. You need to specify the `MOODLE_DOCKER_APP_VERSION` env variable and the [moodlehq/moodleapp](https://hub.docker.com/r/moodlehq/moodleapp) image will be downloaded from Docker Hub. You can read about the available images in [Moodle App Docker Images](https://docs.moodle.org/dev/Moodle_App_Docker_Images) (for Behat, you'll want to run the ones with the `-test` suffix).
-
-2. Use a local copy of the application code and serve it through Docker, similar to how the Moodle site is being served. Set the `MOODLE_DOCKER_APP_PATH` env variable to the codebase in you file system. This will assume that you've already initialized the app calling `npm install` and `npm run setup` locally.
-
-For both options, you also need to set `MOODLE_DOCKER_BROWSER` to "chrome".
-
-```bash
-# Install local_moodleappbehat plugin
-cd /path/to/moodle
-git clone https://github.com/moodlehq/moodle-local_moodleappbehat "$MOODLE_DOCKER_WWWROOT/local/moodleappbehat"
-
-# Initialize behat environment
-cd /path/with/moodle-docker.env/
-behat-init
-# (you should see "Configured app tests for version X.X.X" here)
-
-# Run behat tests
-behat --tags="@app&&@mod_login"
-Running single behat site:
-Moodle 4.0dev (Build: 20200615), a2b286ce176fbe361f0889abc8f30f043cd664ae
-Php: 7.2.30, pgsql: 11.8 (Debian 11.8-1.pgdg90+1), OS: Linux 5.3.0-61-generic x86_64
-Server OS "Linux", Browser: "chrome"
-Browser specific fixes have been applied. See http://docs.moodle.org/dev/Acceptance_testing#Browser_specific_fixes
-Started at 13-07-2020, 18:34
-.....................................................................
-
-4 scenarios (4 passed)
-69 steps (69 passed)
-3m3.17s (55.02Mb)
-```
-
-If you are going with the second option, this *can* be used for local development of the Moodle App, given that the `moodleapp` container serves the app on the local 8100 port. However, this is intended to run Behat tests that require interacting with a local Moodle environment. Normal development should be easier calling `npm start` in the host system.
-
-By all means, if you don't want to have npm installed locally you can go full Docker executing the following commands before starting the containers:
-
-```
-docker run --volume $MOODLE_DOCKER_APP_PATH:/app --workdir /app bash -c "npm install npm@7 -g && npm ci"
-```
-
-You can learn more about writing tests for the app in [Acceptance testing for the Moodle App](https://moodledev.io/general/app/development/testing/acceptance-testing).
-
 ## Use docker to run grunt
 
 First you need to install appropriate node and npm version in webserver container, for example:
@@ -364,9 +317,6 @@ first call `mdc-down`, then update the environment file and finally start the co
 | `MOODLE_DOCKER_WEB_PLATFORM`              | no        | linux/amd64                                                                              | none                                                                                 | Experimental setting for Apple M1/M2 CPUs                                                                                                                                                                                                                                                                              |
 | `MOODLE_DOCKER_DB_PLATFORM`               | no        | linux/amd64                                                                              | none                                                                                 | Experimental setting for Apple M1/M2 CPUs                                                                                                                                                                                                                                                                              |
 | `MOODLE_DOCKER_SELENIUM_VNC_PORT`         | no        | any integer value (or bind_ip:integer)                                                   | not set                                                                              | If set, the selenium node will expose a vnc session on the port specified. Similar to MOODLE_DOCKER_WEB_PORT, you can optionally define the host IP to bind to. If you just set the port, VNC binds to 127.0.0.1                                                                                                       |
-| `MOODLE_DOCKER_APP_PATH`                  | no        | path on your file system                                                                 | not set                                                                              | If set and the chrome browser is selected, it will start an instance of the Moodle app from your local codebase                                                                                                                                                                                                        |
-| `MOODLE_DOCKER_APP_VERSION`               | no        | a valid [app docker image version](https://docs.moodle.org/dev/Moodle_App_Docker_images) | not set                                                                              | If set will start an instance of the Moodle app if the chrome browser is selected                                                                                                                                                                                                                                      |
-| `MOODLE_DOCKER_APP_RUNTIME`               | no        | 'ionic3' or 'ionic5'                                                                     | not set                                                                              | Set this to indicate the runtime being used in the Moodle app. In most cases, this can be ignored because the runtime is guessed automatically (except on Windows using the `.cmd` binary). In case you need to set it manually and you're not sure which one it is, versions 3.9.5 and later should be using Ionic 5. |
 | `COMPOSE_PROJECT_NAME`                    | no        | must be unique                                                                           | current directory name                                                               | Must be set if multiple instances are active and _./moodle-docker.env_ is not used                                                                                                                                                                                                                                     |
 
 It is also possible to use environment variables instead of the environment file, for example:
