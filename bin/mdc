@@ -93,16 +93,7 @@ fi
 
 if [[ -z "$MOODLE_DOCKER_BROWSER_TAG" ]];
 then
-    if [[ "$MOODLE_DOCKER_BROWSER_NAME" = "firefox" ]];
-    then
-        MOODLE_DOCKER_BROWSER_TAG=3
-    elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chrome" ]];
-    then
-        MOODLE_DOCKER_BROWSER_TAG=3
-    elif [[ "$MOODLE_DOCKER_BROWSER_NAME" = "chromium" ]];
-    then
-        MOODLE_DOCKER_BROWSER_TAG=4
-    fi
+    MOODLE_DOCKER_BROWSER_TAG=4
 fi
 
 if [[ "$MOODLE_DOCKER_BROWSER_NAME" != "firefox" ]];
@@ -111,14 +102,8 @@ then
 fi
 
 # Selenium VNC port
-export MOODLE_DOCKER_SELENIUM_SUFFIX=""
 if [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]] || [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT -gt 0 ]]
 then
-    if [[ $(echo $MOODLE_DOCKER_BROWSER_TAG | sed 's/[^0-9].*//g') -lt 4 ]]
-    then
-        export MOODLE_DOCKER_SELENIUM_SUFFIX="-debug"
-    fi
-
     # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
     if [[ ! $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]]
     then
