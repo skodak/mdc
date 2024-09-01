@@ -1,4 +1,4 @@
 services:
   db:
     volumes:
-      - "${MOODLE_DOCKER_BACKUPS}:/backups"
+      - "${MDC_BACKUPS_PATH}:/backups"

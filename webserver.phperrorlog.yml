@@ -1,4 +1,4 @@
 services:
   webserver:
     volumes:
-      - "${MOODLE_DOCKER_PHP_ERROR_LOG}:/var/www/php_error.log"
+      - "${MDC_PHP_ERROR_LOG_PATH}:/var/www/php_error.log"

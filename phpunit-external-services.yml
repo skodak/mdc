@@ -1,20 +1,26 @@
 services:
   webserver:
       environment:
-        MOODLE_DOCKER_PHPUNIT_EXTRAS: "true"
+        MDC_PHPUNIT_EXTRAS: "true"
   memcached0:
+    container_name: "${COMPOSE_PROJECT_NAME}-memcached0"
     image: memcached:1.4
   memcached1:
+    container_name: "${COMPOSE_PROJECT_NAME}-memcached1"
     image: memcached:1.4
   mongo:
+    container_name: "${COMPOSE_PROJECT_NAME}-mongo"
     image: mongo:4.0
   redis:
+    container_name: "${COMPOSE_PROJECT_NAME}-redis"
     image: redis:3
   solr:
+    container_name: "${COMPOSE_PROJECT_NAME}-solr"
     image: solr:6.5
     entrypoint:
       - docker-entrypoint.sh
       - solr-precreate
       - test
   ldap:
+    container_name: "${COMPOSE_PROJECT_NAME}-ldap"
     image: larrycai/openldap

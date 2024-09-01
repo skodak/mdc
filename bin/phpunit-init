@@ -2,6 +2,7 @@
 set -e
 
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
-basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
 
-$basedir/bin/mdc exec webserver php admin/tool/phpunit/cli/init.php "$@"
+$MDC_BASEDIR/bin/mdc exec webserver php admin/tool/phpunit/cli/init.php "$@"

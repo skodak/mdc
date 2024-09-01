@@ -5,15 +5,16 @@ set -e
 # then find the real path of parent directory.
 # This is needed because macOS does not have GNU realpath.
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
-basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
 
-$basedir/bin/mdc down
+$MDC_BASEDIR/bin/mdc down
 
-configfilename="moodle-docker-compose.yml"
-if [ -f $configfilename ];
-then
+configfilename="mdc-compose.yml"
+if [ -f $configfilename ]; then
     rm $configfilename
 fi
-$basedir/bin/mdc up -d
 
-$basedir/bin/mdc exec db bash mdc_db_wait.sh
+$MDC_BASEDIR/bin/mdc up -d
+
+$MDC_BASEDIR/bin/mdc exec db bash mdc_db_wait.sh

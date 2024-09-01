@@ -1,0 +1,27 @@
+services:
+  webserver:
+    container_name: "${COMPOSE_PROJECT_NAME}-webserver"
+    image: "skodak2/mdc-php-apache:${MDC_PHP_VERSION}"
+    depends_on:
+      - db
+    volumes:
+      - "${MDC_DIRROOT}:/var/www/html"
+      - "${MDC_BASEDIR}/assets/webserver/apache2_deny.conf:/etc/apache2/conf-enabled/apache2_deny.conf:ro"
+      - "${MDC_BASEDIR}/assets/webserver/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf:ro"
+      - "${MDC_BASEDIR}/assets/webserver/config-moodle.php:/var/www/config-moodle.php:ro"
+      - "${MDC_BASEDIR}/assets/webserver/nvm_install.sh:/root/nvm_install.sh:ro"
+      - "${MDC_BASEDIR}/assets/webserver/npm_install.sh:/root/npm_install.sh:ro"
+      - "${MDC_BASEDIR}/assets/webserver/php_wrapper:/root/php_wrapper:ro"
+      - "${MDC_BASEDIR}/assets/webserver/backup.sh:/root/backup.sh:ro"
+      - "${MDC_BASEDIR}/assets/webserver/restore.sh:/root/restore.sh:ro"
+    environment:
+      MDC_RUNNING: 1
+      MDC_DB_TYPE: "${MDC_DB_TYPE}"
+      MDC_DB_VERSION: "${MDC_DB_VERSION}"
+      MDC_DB_COLLATION: "${MDC_DB_COLLATION:-}"
+      MDC_DBNAME: moodle
+      MDC_DBUSER: moodle
+      MDC_DBPASS: "m@0dl3ing"
+      MDC_BROWSER: "${MDC_BROWSER}"
+      COMPOSE_PROJECT_NAME:  "${COMPOSE_PROJECT_NAME}"
+      COMPOSER_ALLOW_SUPERUSER: 1

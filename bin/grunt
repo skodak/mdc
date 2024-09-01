@@ -2,7 +2,8 @@
 set -e
 
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
-basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
 
 # NVM requires bash rc file.
-$basedir/bin/mdc exec webserver /bin/bash -c "source /root/.bashrc && node ./node_modules/.bin/grunt $*"
+$MDC_BASEDIR/bin/mdc exec webserver /bin/bash -c "source /root/.bashrc && node ./node_modules/.bin/grunt $*"

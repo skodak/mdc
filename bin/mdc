@@ -1,222 +1,126 @@
 #!/usr/bin/env bash
 set -e
 
-# Test if we have Docker Compose V2.
-ver=$(docker compose version > /dev/null 2>&1 && docker compose version --short) || true
-if [[ $ver =~ ^v?2 ]]; then
-  dockercompose_cmd="docker compose"
-else
-  echo 'Compose v2 is not available in Docker CLI, falling back to use docker-compose script'
-  dockercompose_cmd="docker-compose"
-fi
-
 # First find out if this was called from symlink,
 # then find the real path of parent directory.
 # This is needed because macOS does not have GNU realpath.
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
-basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
 
-# Use moodle-docker-compose.yml as much as possible,
+# Use mdc-compose.yml as much as possible,
 # but allow devs to make tweaks in it,
-# it is deleted only from bin/docker_up and bin/docker_rebuild.
-finalconfigfilename="moodle-docker-compose.yml"
-if [ -f $finalconfigfilename ];
-then
-    $dockercompose_cmd -f $finalconfigfilename "$@"
+# it is deleted only from bin/mdc-rebuild.
+finalconfigfilename="mdc-compose.yml"
+if [ -f $finalconfigfilename ]; then
+    docker compose -f $finalconfigfilename "$@"
     exit 0
 fi
 
 # Load all environment settings.
-source "${basedir}/bin/include/env.sh"
+source "${MDC_BASEDIR}/bin/include/env.sh"
 
-export BASEDIR="${basedir}"
-export ASSETDIR="${basedir}/assets"
-
-# Test if we have docker compose v2, and keep quiet if we don't.
-dockercompose=""
-
-dockercompose="${dockercompose} -f ${basedir}/base.yml"
-dockercompose="${dockercompose} -f ${basedir}/service.mail.yml"
-
-# PHP Version.
-export MOODLE_DOCKER_PHP_VERSION=${MOODLE_DOCKER_PHP_VERSION:-8.1}
-
-# Database flavour.
-dockercompose="${dockercompose} -f ${basedir}/db.${MOODLE_DOCKER_DB}.yml"
-
-# Add support for version specific database settings.
-if [ ! -z "$MOODLE_DOCKER_DB_VERSION" ];
-then
-    filename="${basedir}/db.${MOODLE_DOCKER_DB}.${MOODLE_DOCKER_DB_VERSION}.yml"
-    if [ -f $filename ]; then
-        dockercompose="${dockercompose} -f ${filename}"
-    fi
+# Create config.php if not present yet.
+configfile="config.php"
+if [ ! -f "$configfile" ] && [ -f 'lib/moodlelib.php' ]; then
+    cp "${MDC_BASEDIR}/templates/config.php" config.php
 fi
 
-# Support PHP version overrides for DB not available any more.
-# use extra configuration file ./moodle-docker.yml instead in special cases.
+dockercompose="-f ${MDC_BASEDIR}/webserver.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.${MDC_DB_TYPE}.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/exttests.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/selenium.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/mailpit.yml"
 
-# Expose DB port if requested.
-if [[ $MOODLE_DOCKER_DB_PORT == *":"* ]] || [[ $MOODLE_DOCKER_DB_PORT -gt 0 ]]
-then
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_DB_PORT == *":"* ]]
-    then
-        export MOODLE_DOCKER_DB_PORT=127.0.0.1:$MOODLE_DOCKER_DB_PORT
-    fi
-    filename="${basedir}/db.${MOODLE_DOCKER_DB}.port.yml"
-    if [ -f $filename ];
-    then
-        dockercompose="${dockercompose} -f ${filename}"
-    fi
+# Allow shared mdc-config file.
+configfile="${MDC_BASEDIR}/shared/mdc-config.php"
+if [ -f "$configfile" ]; then
+    echo "[mdc] Using ${configfile}"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.mdc-config-shared.yml"
 fi
 
-# Force platform if requested.
-if [ ! -z "$MOODLE_DOCKER_WEB_PLATFORM" ];
-then
-    dockercompose="${dockercompose} -f ${basedir}/webserver.platform.yml"
-fi
-if [ ! -z "$MOODLE_DOCKER_DB_PLATFORM" ];
-then
-    dockercompose="${dockercompose} -f ${basedir}/db.platform.yml"
+# Allow extra mdc-config file in non-moodle directories too.
+configfile="mdc-config.php"
+if [ -f "$configfile" ]; then
+    echo "[mdc] Using ${MDC_PROJECTDIR}/${configfile}"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.mdc-config-project.yml"
 fi
 
-# Selenium browser
-browserparts=(${MOODLE_DOCKER_BROWSER//:/ })
-export MOODLE_DOCKER_BROWSER_NAME=${browserparts[0]}
-export MOODLE_DOCKER_BROWSER_TAG=${browserparts[1]}
-
-if [[ -z "$MOODLE_DOCKER_BROWSER_NAME" ]];
-then
-    MOODLE_DOCKER_BROWSER_NAME=firefox
+# Special configuration for obsolete MySQL 5.7
+if [ "$MDC_DB_TYPE" == "mysqli" ] && [[ "${MDC_DB_VERSION}" == "5.7."* ]]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.mysqli.legacy.yml"
 fi
 
-if [[ -z "$MOODLE_DOCKER_BROWSER_TAG" ]];
-then
-    MOODLE_DOCKER_BROWSER_TAG=4
-fi
-
-if [[ "$MOODLE_DOCKER_BROWSER_NAME" != "firefox" ]];
-then
-    dockercompose="${dockercompose} -f ${basedir}/selenium.${MOODLE_DOCKER_BROWSER_NAME}.yml"
-fi
-
-# Selenium VNC port
-if [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]] || [[ $MOODLE_DOCKER_SELENIUM_VNC_PORT -gt 0 ]]
-then
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_SELENIUM_VNC_PORT == *":"* ]]
-    then
-        MOODLE_DOCKER_SELENIUM_VNC_PORT=127.0.0.1:$MOODLE_DOCKER_SELENIUM_VNC_PORT
-    fi
-    dockercompose="${dockercompose} -f ${basedir}/selenium.vnc.yml"
-fi
-
-# Browser debug port
-if [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT == *":"* ]] || [[ $MOODLE_DOCKER_BROWSER_DEBUG_PORT -gt 0 ]]
-then
-    dockercompose="${dockercompose} -f ${basedir}/selenium.debug.yml"
+# Browser debug port.
+if [[ "$MDC_BROWSER_DEBUG" == *":"* ]]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/selenium.debug.port.yml"
 fi
 
 # External services
-if [[ ! -z "$MOODLE_DOCKER_PHPUNIT_EXTERNAL_SERVICES" ]];
-then
-    dockercompose="${dockercompose} -f ${basedir}/phpunit-external-services.yml"
+if [ ! -z "$MDC_PHPUNIT_EXTERNAL_SERVICES" ]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/phpunit-external-services.yml"
 fi
 
 # BBB Mock
-if [[ ! -z "$MOODLE_DOCKER_BBB_MOCK" ]];
-then
-    dockercompose="${dockercompose} -f ${basedir}/bbb-mock.yml"
+if [ ! -z "$MDC_BBB_MOCK" ]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/bbb-mock.yml"
 fi
 
-#  Faildump directory
-if [[ ! -z "$MOODLE_DOCKER_BEHAT_FAILDUMP" ]];
-then
-    if [ ! -d "$MOODLE_DOCKER_BEHAT_FAILDUMP" ];
-    then
-        echo 'Error: MOODLE_DOCKER_BEHAT_FAILDUMP is not an existing directory'
+#  Faildump directory.
+if [ ! -z "$MDC_BEHAT_FAILDUMP_PATH" ]; then
+    if [ ! -d "$MDC_BEHAT_FAILDUMP_PATH" ]; then
+        echo 'Error: MDC_BEHAT_FAILDUMP_PATH is not an existing directory'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${basedir}/behat-faildump.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.behatfaildump.yml"
 fi
 
-#  Backups directory
-if [[ ! -z "$MOODLE_DOCKER_BACKUPS" ]];
-then
-    if [ ! -d "$MOODLE_DOCKER_BACKUPS" ];
-    then
-        echo 'Error: MOODLE_DOCKER_BACKUPS is not an existing directory'
+#  Backups directory.
+if [ ! -z "$MDC_BACKUPS_PATH" ]; then
+    if [ ! -d "$MDC_BACKUPS_PATH" ]; then
+        echo 'Error: MDC_BACKUPS_PATH is not an existing directory'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${basedir}/webserver.backups.yml"
-    dockercompose="${dockercompose} -f ${basedir}/db.backups.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.backups.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.backups.yml"
 fi
 
-#  Backups directory
-if [[ ! -z "$MOODLE_DOCKER_PHP_ERROR_LOG" ]];
-then
-    if [ ! -f "$MOODLE_DOCKER_PHP_ERROR_LOG" ];
-    then
-        touch $MOODLE_DOCKER_PHP_ERROR_LOG
+#  PHP error logs directory.
+if [ ! -z "$MDC_PHP_ERROR_LOG_PATH" ]; then
+    if [ ! -f "$MDC_PHP_ERROR_LOG_PATH" ]; then
+        touch $MDC_PHP_ERROR_LOG_PATH
     fi
-    if [ ! -f "$MOODLE_DOCKER_PHP_ERROR_LOG" ];
-    then
-        echo 'Error: MOODLE_DOCKER_PHP_ERROR_LOG file cannot be created'
+    if [ ! -f "$MDC_PHP_ERROR_LOG_PATH" ]; then
+        echo 'Error: MDC_PHP_ERROR_LOG_PATH file cannot be created'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${basedir}/webserver.phperrorlog.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.phperrorlog.yml"
 fi
 
-# Webserver host
-export MOODLE_DOCKER_WEB_HOST=${MOODLE_DOCKER_WEB_HOST:-localhost}
+# Apply user overrides at the very end!
 
-# Webserver port
-export MOODLE_DOCKER_WEB_PORT=${MOODLE_DOCKER_WEB_PORT:-8000}
-if [[ $MOODLE_DOCKER_WEB_PORT == *":"* ]] || [[ $MOODLE_DOCKER_WEB_PORT -gt 0 ]]
-then
-    # If no bind ip has been configured (bind_ip:port), default to 127.0.0.1
-    if [[ ! $MOODLE_DOCKER_WEB_PORT == *":"* ]]
-    then
-        MOODLE_DOCKER_WEB_PORT=127.0.0.1:$MOODLE_DOCKER_WEB_PORT
-    fi
-    dockercompose="${dockercompose} -f ${basedir}/webserver.port.yml"
+# Apply shared customisations.
+sharedfile="${MDC_BASEDIR}/shared/mdc.yml"
+if [ -f "${sharedfile}" ]; then
+  echo "[mdc] Using ${sharedfile}"
+  dockercompose="${dockercompose} -f ${sharedfile}"
 fi
 
-
-# Mac OS Compatbility
-if [[ "$(uname)" == "Darwin" ]]; then
-    # Support https://docs.docker.com/docker-for-mac/osxfs-caching/
-    dockercompose="${dockercompose} -f ${basedir}/volumes-cached.yml"
-fi
-
-# Apply local customisations if a local.yml is found.
-# Note: This must be the final modification before the docker-compose command is called.
-localfile="${basedir}/local.yml"
-if [ -f "${localfile}" ]
-then
-  echo "Including local options from ${localfile}"
-  dockercompose="${dockercompose} -f ${localfile}"
-fi
-
-# Finally any other custom overrides
-filename="moodle-docker.yml"
-if [ -f $filename ];
-then
+# Finally any other custom project overrides.
+filename="mdc.yml"
+if [ -f $filename ]; then
+    echo "[mdc] Using ${MDC_PROJECTDIR}/${filename}"
     dockercompose="${dockercompose} -f ${filename}"
 fi
 
+# Create the final config file.
+docker compose $dockercompose config > ${finalconfigfilename} || rm ${finalconfigfilename} || false
 
-# Always try to create the final config file,
-# use it if docker is configured via new env file.
-$dockercompose_cmd $dockercompose config > ${finalconfigfilename} || rm ${finalconfigfilename} || false
-if [ -f $finalconfigfilename ];
-then
-    filename="moodle-docker.env"
-    if [ -f $filename ];
-    then
-      dockercompose=" -f ${finalconfigfilename}"
-    fi
+if [ ! -f ${finalconfigfilename} ]; then
+    echo "[mdc] Failed to create combined Docker compose file"
+    exit 1
 fi
 
-$dockercompose_cmd $dockercompose "$@"
+# Use the final combined compose file.
+docker compose -f $finalconfigfilename "$@"

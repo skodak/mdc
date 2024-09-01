@@ -1,4 +1,4 @@
 services:
   webserver:
     volumes:
-      - "${MOODLE_DOCKER_BACKUPS}:/var/www/backups"
+      - "${MDC_BACKUPS_PATH}:/var/www/backups"

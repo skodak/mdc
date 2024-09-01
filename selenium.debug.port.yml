@@ -1,0 +1,4 @@
+services:
+  selenium:
+    ports:
+      - "$MDC_BROWSER_DEBUG:9229"

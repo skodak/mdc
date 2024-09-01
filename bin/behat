@@ -2,6 +2,7 @@
 set -e
 
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
-basedir="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
 
-$basedir/bin/mdc exec webserver vendor/bin/behat --config /var/www/behatdata/behatrun/behat/behat.yml "$@"
+$MDC_BASEDIR/bin/mdc exec webserver vendor/bin/behat --config /var/www/behatdata/behatrun/behat/behat.yml "$@"

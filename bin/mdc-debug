@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -e
+
+thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
+MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
+export MDC_BASEDIR="${MDC_BASEDIR}"
+
+name="$( basename "$( pwd -P )" )"
+name=${name//_/-}
+
+if [ -z "$1" ]; then
+    container="webserver"
+else
+    container="$1"
+fi
+
+orb debug "mdc-${name}-${container}"

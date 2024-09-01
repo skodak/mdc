@@ -1,0 +1,4 @@
+services:
+  webserver:
+    volumes:
+      - "${MDC_BASEDIR}/shared/mdc-config.php:/var/www/mdc-config-shared.php:ro"

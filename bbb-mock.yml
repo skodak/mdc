@@ -1,6 +1,7 @@
 services:
   webserver:
     environment:
-      MOODLE_DOCKER_BBB_MOCK: "true"
+      MDC_BBB_MOCK: "true"
   bbbmock:
+    container_name: "${COMPOSE_PROJECT_NAME}-bbbmock"
     image: moodlehq/bigbluebutton_mock

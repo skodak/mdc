@@ -1,0 +1,7 @@
+services:
+  exttests:
+    container_name: "${COMPOSE_PROJECT_NAME}-exttests"
+    image: moodlehq/moodle-exttests
+    volumes:
+      - "${MDC_BASEDIR}/assets/exttests/apache2_ports.conf:/etc/apache2/ports.conf"
+      - "${MDC_BASEDIR}/assets/exttests/apache2.conf:/etc/apache2/sites-enabled/000-default.conf"

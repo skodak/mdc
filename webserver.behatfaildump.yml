@@ -1,0 +1,6 @@
+services:
+  webserver:
+    volumes:
+      - "${MDC_BEHAT_FAILDUMP_PATH}:/var/www/behatfaildumps"
+    environment:
+        MDC_BEHAT_FAILDUMP_PATH: "${MDC_BEHAT_FAILDUMP_PATH}"

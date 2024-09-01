@@ -1,0 +1,16 @@
+services:
+  db:
+    image: mysql:${MDC_DB_VERSION}
+    command: >
+                --character-set-server=utf8mb4
+                --collation-server=utf8mb4_bin
+                --skip-log-bin
+    environment:
+      MYSQL_ROOT_PASSWORD: "m@0dl3ing"
+      MYSQL_USER: moodle
+      MYSQL_PASSWORD: "m@0dl3ing"
+      MYSQL_DATABASE: moodle
+    volumes:
+      - "${MDC_BASEDIR}/assets/db/mysql_wait.sh:/mdc_db_wait.sh"
+      - "${MDC_BASEDIR}/assets/db/mysql_backup.sh:/mdc_db_backup.sh"
+      - "${MDC_BASEDIR}/assets/db/mysql_restore.sh:/mdc_db_restore.sh"

@@ -1,0 +1,4 @@
+services:
+  mailpit:
+    container_name: "${COMPOSE_PROJECT_NAME}-mailpit"
+    image: axllent/mailpit:v1.20.2

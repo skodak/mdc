@@ -1,0 +1,4 @@
+services:
+  webserver:
+    volumes:
+      - "${MDC_PROJECTDIR}/mdc-config.php:/var/www/mdc-config-project.php:ro"
