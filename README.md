@@ -18,6 +18,7 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 * All Moodle supported PHP versions available with commonly used PHP extensions enabled
 * Supported database servers - PostgreSQL, MariaDB, MySQL and MS SQL Server
 * Behat/Selenium configurations for Chromium, Chrome, Edge and Firefox with VNC and remote port debugging
+* Behat browser inspection via "chrome://inspect" (Chrome/Chromium only)
 * Catch-all SMTP server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
 
 **Table of contents**
@@ -173,7 +174,7 @@ first call `mdc-down`, then update the environment file and finally start the co
 | `MDC_PHP_ERROR_LOG_PATH`        | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                    |
 | `MDC_BROWSER`                   | no        | chromium, chrome, firefix or edge            | chromium                              | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. |
 | `MDC_BROWSER_VERSION`           | no        | Docker Hub tag of selenium-stabalone image   | 4                                     | Selenium docker image version to use.                                                                                   |
-| `MDC_BROWSER_DEBUG_PORT`        | no        | usually 9223, 9229 or similar                | not set                               | Forward debugging port from Selenium browser to 127.0.0.1:port, the port must be unique for each project                |  
+| `MDC_BROWSER_DEBUG_PORT`        | no        | 9223, 9229 or similar                        | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project       |  
 | `MDC_PHPUNIT_EXTERNAL_SERVICES` | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
 | `MDC_BBB_MOCK`                  | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
 | `MDC_BEHAT_FAILDUMP_PATH`       | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
