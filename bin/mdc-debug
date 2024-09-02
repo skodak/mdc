@@ -14,4 +14,4 @@ else
     container="$1"
 fi
 
-orb debug "mdc-${name}-${container}"
+orb debug "${name}-${container}"
