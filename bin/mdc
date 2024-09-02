@@ -53,7 +53,7 @@ if [ "$MDC_DB_TYPE" == "mysqli" ] && [[ "${MDC_DB_VERSION}" == "5.7."* ]]; then
 fi
 
 # Browser debug port.
-if [[ "$MDC_BROWSER_DEBUG" == *":"* ]]; then
+if [[ ! -z "$MDC_BROWSER_DEBUG_PORT" ]]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/selenium.debug.port.yml"
 fi
 

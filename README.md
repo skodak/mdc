@@ -173,7 +173,7 @@ first call `mdc-down`, then update the environment file and finally start the co
 | `MDC_PHP_ERROR_LOG_PATH`        | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                    |
 | `MDC_BROWSER`                   | no        | chromium, chrome, firefix or edge            | chromium                              | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. |
 | `MDC_BROWSER_VERSION`           | no        | Docker Hub tag of selenium-stabalone image   | 4                                     | Selenium docker image version to use.                                                                                   |
-| `MDC_BROWSER_DEBUG`             | no        | 127.0.0.1:nnnn interface and port number     | not set                               | Forward debugging port from Selenium browser to interface:port, the port must be unique for each project                |  
+| `MDC_BROWSER_DEBUG_PORT`        | no        | usually 9223, 9229 or similar                | not set                               | Forward debugging port from Selenium browser to 127.0.0.1:port, the port must be unique for each project                |  
 | `MDC_PHPUNIT_EXTERNAL_SERVICES` | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
 | `MDC_BBB_MOCK`                  | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
 | `MDC_BEHAT_FAILDUMP_PATH`       | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
@@ -324,13 +324,14 @@ a browser will pop up, and you will see the tests execute.
 
 ### Headless browser inspection 
 
-The only way to inspect headless Chromium/Chrome browser is to use remote debug ports. 
+The only way to inspect headless Chromium/Chrome browser is to use remote debug ports.
+Please note the port based debugging may be used also for normal Selenium Chrome/Chromium.
 
 Modify `mdc.env` file to include:
 
 ```
 MDC_BROWSER=chromium
-MDC_BROWSER_DEBUG=127.0.0.1:9229
+MDC_BROWSER_DEBUG_PORT=9229
 ```
 
 To force headless mode you need to modify `mdc-config.php` file to include:
@@ -338,12 +339,6 @@ To force headless mode you need to modify `mdc-config.php` file to include:
 ```php
 $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'headless=new';
 $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'no-gpu';
-```
-
-Run port forwarder from selected port in MDC_BROWSER_DEBUG to internal 9222:
-```bash
-cd /path/to/moodle
-selenium-debug-forward
 ```
 
 1. Open Chrome and go to chrome://inspect
