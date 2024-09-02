@@ -31,9 +31,10 @@ fi
 
 # Use current directory name as base for compose project name,
 # users need to make sure it is unique enough.
+# Unfortunately PhpStorm does not like any prefix in COMPOSE_PROJECT_NAME here.
 name="$( basename "$( pwd -P )" )"
 name=${name//_/-}
-export COMPOSE_PROJECT_NAME="mdc-$name";
+export COMPOSE_PROJECT_NAME="$name";
 
 # Default values - keep them in sync with templates/mdc.env file.
 

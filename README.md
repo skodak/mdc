@@ -74,13 +74,13 @@ export PATH=$PATH:/path/to/mdc/bin
 cd /path/to/moodle
 mdc-rebuild
 ```
-7. You can complete the test site installation at [https://webserver.mdc-moodle.orb.local/](https://webserver.mdc-moodle.orb.local/).
+7. You can complete the test site installation at [https://webserver.moodle.orb.local/](https://webserver.moodle.orb.local/).
 8. Alternatively you can complete the test site installation from CLI:
 ```bash
 cd /path/to/moodle
 site-install --agree-license --adminpass="testpassword"
 ```
-9. You can review all outgoing emails at [https://mailpit.mdc-moodle.orb.local/](https://mailpit.mdc-moodle.orb.local/).
+9. You can review all outgoing emails at [https://mailpit.moodle.orb.local/](https://mailpit.moodle.orb.local/).
 10. When you are finished with testing you can delete the containers using `mdc-down` script:
 ```bash
 cd /path/to/moodle
@@ -176,7 +176,7 @@ first call `mdc-down`, then update the environment file and finally start the co
 | `MDC_BROWSER_DEBUG`             | no        | 127.0.0.1:nnnn interface and port number     | not set                               | Forward debugging port from Selenium browser to interface:port, the port must be unique for each project                |  
 | `MDC_PHPUNIT_EXTERNAL_SERVICES` | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
 | `MDC_BBB_MOCK`                  | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
-| `MDC_BEHAT_FAILDUMP_PATH`       | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.mdc-moodle.orb.local/_/faildumps/, use for path outside of container |
+| `MDC_BEHAT_FAILDUMP_PATH`       | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
 | `MDC_BACKUPS_PATH`              | no        | Path to backup directory on your file system | subdirectory shared/backups/ of mdc   | Use for alternative backups path outside of containers                                                                  |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
@@ -204,7 +204,7 @@ services:
       - "db"
 ```
 
-If used in project directory named 'moodle' then Adminer would be accessible via [https://adminer.mdc-moodle.orb.local/](https://adminer.mdc-moodle.orb.local/).
+If used in project directory named 'moodle' then Adminer would be accessible via [https://adminer.moodle.orb.local/](https://adminer.moodle.orb.local/).
 
 ## Shared configuration
 
@@ -298,7 +298,7 @@ Started at 02-09-2024, 03:28
 
 Notes:
 
-* The behat faildump directory is exposed at https://webserver.mdc-moodle.orb.local/_/faildumps/.
+* The behat faildump directory is exposed at https://webserver.moodle.orb.local/_/faildumps/.
 * Use `MDC_BROWSER` to switch the browser you want to run the test against.
   You need to recreate your containers using `mdc-rebuild`,
   if you make any changes in __mdc.env__ file.
@@ -311,11 +311,11 @@ just connect to selenium container using OrbStack container domain name.
 You should be able to use any kind of VNC viewer, such as [Real VNC Viewer](https://www.realvnc.com/en/connect/download/viewer/)
 or standard macOS application _Screen Sharing_.
 
-With the containers running, enter address "selenium.mdc-moodle.orb.local" in VNC Viewer
-or copy vnc://selenium.mdc-moodle.orb.local address into _Safari_ which will open _Screen Sharing_ application
+With the containers running, enter address "selenium.moodle.orb.local" in VNC Viewer
+or copy vnc://selenium.moodle.orb.local address into _Safari_ which will open _Screen Sharing_ application
 or execute this in terminal:
 ```bash
-open vnc://selenium.mdc-moodle.orb.local
+open vnc://selenium.moodle.orb.local
 ```
 You will be prompted for a password, the password is 'secret'.
 
@@ -407,7 +407,7 @@ MDC_DB_VERSION=2019-latest
 ```bash
 mdc-rebuild
 ```
-5. Inspect new instance at [https://webserver.mdc-moodle-sqlsrv.orb.local/admin/index.php](https://webserver.mdc-moodle-sqlsrv.orb.local/admin/index.php)
+5. Inspect new instance at [https://webserver.moodle-sqlsrv.orb.local/admin/index.php](https://webserver.moodle-sqlsrv.orb.local/admin/index.php)
 
 ### XDebug live debugging
 
@@ -487,7 +487,7 @@ yarn
 yarn build
 yarn start --host=0.0.0.0
 ```
-7. Open [https://webserver.mdc-devdocs.orb.local/](https://webserver.mdc-devdocs.orb.local/)
+7. Open [https://webserver.devdocs.orb.local/](https://webserver.devdocs.orb.local/)
 8. Dispose of the devdocs containers:
 ```bash
 cd /path/to/devdocs/
