@@ -10,7 +10,7 @@ export MDC_BASEDIR="${MDC_BASEDIR}"
 
 # Use mdc-compose.yml as much as possible,
 # but allow devs to make tweaks in it,
-# it is deleted only from bin/mdc-rebuild.
+# it is deleted only from bin/mdc-rebuild and bin/mdc-down scripts.
 finalconfigfilename="mdc-compose.yml"
 if [ -f $finalconfigfilename ]; then
     docker compose -f $finalconfigfilename "$@"

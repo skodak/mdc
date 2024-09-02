@@ -75,9 +75,7 @@ if (getenv('MDC_BROWSER') === 'chromium' || getenv('MDC_BROWSER') === 'chrome') 
                     'chromeOptions' => [
                         'args' => [
                             'no-sandbox',
-                            //'headless=new',
-                            //'no-gpu',
-                            'disable-dev-shm-usage',
+                            //'disable-dev-shm-usage',
                             'remote-debugging-port=9222', // Do not change, this is redirected to 9229 to allow non-localhost access.
                         ],
                     ],
