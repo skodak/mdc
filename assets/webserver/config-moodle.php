@@ -65,7 +65,7 @@ define('TEST_EXTERNAL_FILES_HTTPS_URL', 'http://exttests:9000');
 $CFG->behat_wwwroot   = 'http://webserver';
 $CFG->behat_dataroot  = '/var/www/behatdata';
 $CFG->behat_prefix = 'b_';
-if (getenv('MDC_BROWSER') === 'chromium' || getenv('MDC_BROWSER') === 'chrome') {
+if (getenv('MDC_BEHAT_BROWSER') === 'chromium' || getenv('MDC_BEHAT_BROWSER') === 'chrome') {
     $CFG->behat_profiles = array(
         'default' => array(
             'browser' => 'chrome',
@@ -86,7 +86,7 @@ if (getenv('MDC_BROWSER') === 'chromium' || getenv('MDC_BROWSER') === 'chrome') 
 } else {
     $CFG->behat_profiles = array(
         'default' => array(
-            'browser' => getenv('MDC_BROWSER'),
+            'browser' => getenv('MDC_BEHAT_BROWSER'),
             'wd_host' => 'http://selenium:4444/wd/hub',
         ),
     );

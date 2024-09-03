@@ -1,7 +1,7 @@
 services:
   selenium:
     container_name: "${COMPOSE_PROJECT_NAME}-selenium"
-    image: "selenium/standalone-${MDC_BROWSER}:${MDC_BROWSER_VERSION}"
+    image: "selenium/standalone-${MDC_BEHAT_BROWSER}:${MDC_BEHAT_BROWSER_VERSION}"
 #    shm_size: 2gb
     volumes:
       - "${MDC_DIRROOT}:/var/www/html:ro"

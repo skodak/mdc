@@ -6,4 +6,4 @@ services:
       - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port.sh:/mdc_debug_port.sh:ro"
     command: /mdc_debug_port_entry_point.sh
     ports:
-      - "127.0.0.1:${MDC_BROWSER_DEBUG_PORT}:9229"
+      - "127.0.0.1:${MDC_BEHAT_BROWSER_INSPECT_PORT}:9229"

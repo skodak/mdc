@@ -165,20 +165,20 @@ scripts are looking for it in the current working directory when executed.
 Changes in the environment file should be done **before** calling `mdc-rebuild`. If your containers are running
 first call `mdc-down`, then update the environment file and finally start the containers again.
 
-| Environment Variable            | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                                   |
-|---------------------------------|-----------|----------------------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| `MDC_DB_TYPE`                   | no        | pgsql, mariadb, mysqli, sqlsrv               | pgsql                                 | The database server to run against                                                                                      |
-| `MDC_DB_VERSION`                | no        | Docker tag - see docker-hub                  | pgsql: 16; mysqli: 8.4; mariadb: 11.4 | The database server docker image tag                                                                                    |
-| `MDC_DB_COLLATION`              | no        | Collation supported by given database        | various                               |                                                                                                                         |
-| `MDC_PHP_VERSION`               | no        | 8.1, 8.0, 8.2, 8.3, etc.                     | 8.1                                   | The php version to use                                                                                                  |
-| `MDC_PHP_ERROR_LOG_PATH`        | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                    |
-| `MDC_BROWSER`                   | no        | chromium, chrome, firefix or edge            | chromium                              | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. |
-| `MDC_BROWSER_VERSION`           | no        | Docker Hub tag of selenium-stabalone image   | 4                                     | Selenium docker image version to use.                                                                                   |
-| `MDC_BROWSER_DEBUG_PORT`        | no        | 9223, 9229 or similar                        | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project       |  
-| `MDC_PHPUNIT_EXTERNAL_SERVICES` | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
-| `MDC_BBB_MOCK`                  | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
-| `MDC_BEHAT_FAILDUMP_PATH`       | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
-| `MDC_BACKUPS_PATH`              | no        | Path to backup directory on your file system | subdirectory shared/backups/ of mdc   | Use for alternative backups path outside of containers                                                                  |
+| Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                                   |
+|----------------------------------|-----------|----------------------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
+| `MDC_DB_TYPE`                    | no        | pgsql, mariadb, mysqli, sqlsrv               | pgsql                                 | The database server to run against                                                                                      |
+| `MDC_DB_VERSION`                 | no        | Docker tag - see docker-hub                  | pgsql: 16; mysqli: 8.4; mariadb: 11.4 | The database server docker image tag                                                                                    |
+| `MDC_DB_COLLATION`               | no        | Collation supported by given database        | various                               |                                                                                                                         |
+| `MDC_PHP_VERSION`                | no        | 8.1, 8.2, 8.3 (and obsolete 8.0, 7.4)        | 8.1                                   | The php version to use                                                                                                  |
+| `MDC_PHP_ERROR_LOG_PATH`         | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                    |
+| `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. |
+| `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use.                                                                                   |
+| `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project       |  
+| `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
+| `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
+| `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
+| `MDC_BACKUPS_PATH`               | no        | Path to backup directory on your file system | subdirectory shared/backups/ of mdc   | Use for alternative backups path outside of containers                                                                  |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
 
@@ -300,7 +300,7 @@ Started at 02-09-2024, 03:28
 Notes:
 
 * The behat faildump directory is exposed at https://webserver.moodle.orb.local/_/faildumps/.
-* Use `MDC_BROWSER` to switch the browser you want to run the test against.
+* Use `MDC_BEHAT_BROWSER` to switch the browser you want to run the test against.
   You need to recreate your containers using `mdc-rebuild`,
   if you make any changes in __mdc.env__ file.
 
@@ -331,8 +331,8 @@ Please note the port based debugging may be used also for normal Selenium Chrome
 Modify `mdc.env` file to include:
 
 ```
-MDC_BROWSER=chromium
-MDC_BROWSER_DEBUG_PORT=9229
+MDC_BEHAT_BROWSER=chromium
+MDC_BEHAT_BROWSER_INSPECT_PORT=9229
 ```
 
 To force headless mode you need to modify `mdc-config.php` file to include:

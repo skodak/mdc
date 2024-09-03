@@ -22,7 +22,7 @@ services:
       MDC_DBNAME: moodle
       MDC_DBUSER: moodle
       MDC_DBPASS: "m@0dl3ing"
-      MDC_BROWSER: "${MDC_BROWSER}"
+      MDC_BEHAT_BROWSER: "${MDC_BEHAT_BROWSER}"
       COMPOSE_PROJECT_NAME:  "${COMPOSE_PROJECT_NAME}"
       COMPOSER_ALLOW_SUPERUSER: 1
 

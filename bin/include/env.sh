@@ -43,8 +43,8 @@ if [ -z "${MDC_BACKUPS_PATH}" ]; then
 fi
 
 export MDC_PHP_VERSION="${MDC_PHP_VERSION:-8.1}"
-export MDC_BROWSER="${MDC_BROWSER:-chromium}"
-export MDC_BROWSER_VERSION="${MDC_BROWSER_VERSION:-4}"
+export MDC_BEHAT_BROWSER="${MDC_BEHAT_BROWSER:-chromium}"
+export MDC_BEHAT_BROWSER_VERSION="${MDC_BEHAT_BROWSER_VERSION:-4}"
 export MDC_DB_TYPE="${MDC_DB_TYPE:-pgsql}"
 
 if [ "$MDC_DB_TYPE" == "pgsql" ];then

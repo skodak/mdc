@@ -52,12 +52,12 @@ if [ "$MDC_DB_TYPE" == "mysqli" ] && [[ "${MDC_DB_VERSION}" == "5.7."* ]]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.mysqli.legacy.yml"
 fi
 
-# Browser debug port.
-if [[ ! -z "$MDC_BROWSER_DEBUG_PORT" ]]; then
+# Behat browser debug port for use in "chrome://inspect".
+if [ "${MDC_BEHAT_BROWSER_INSPECT_PORT-0}" -gt 1024 ]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-selenium.debug.port.yml"
 fi
 
-# External services
+# External services for additional PHPUnit tests.
 if [ ! -z "$MDC_PHPUNIT_EXTERNAL_SERVICES" ]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-phpunit-external-services.yml"
 fi
