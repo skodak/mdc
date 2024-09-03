@@ -21,6 +21,8 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 * Behat browser inspection via "chrome://inspect" (Chrome/Chromium only)
 * Catch-all SMTP server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
 
+_Note from maintainer: This tool if for lazy Moodle devs like me who do not like CLI scripting. Some of the used bash scripts are probably silly, please help me fix them if you care._ 
+
 **Table of contents**
 
 - [Prerequisites](#prerequisites)
@@ -120,7 +122,7 @@ mdc-restore mybackup
 ## MDC commands
 
 _MDC commands_ are helper scripts located in mdc/bin/ directory. You can get help for most of the commands
-by executing them with --help or -h parameter. 
+by executing them with --help or -h parameter (TODO). 
 
 In recent macOS revisions the default shell is _Z Shell_. To allow trouble free use of MDC it is recommended
 to add mdc/bin to your search path in interactive terminals by adding following into your `~/.zshrc` file:
@@ -224,6 +226,7 @@ The internal format of these shared files is the same as project configuration f
 * Limit Docker ports redirections to 127.0.01 interface
 * Always keep macOS firewall enabled and do not allow Docker to listen to incoming connections
 * Do not install random additional Moodle plugins without security review
+* Do not use Docker tags for obsolete unsupported images unless absolutely necessary (such as PHP 8.0 and 7.4)
 
 ## PHPUnit testing
 
