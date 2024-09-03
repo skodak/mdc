@@ -15,7 +15,7 @@ Then open your Moodle project directory in PhpStorm and add a remote PHP CLI int
 2. Add new _CLI Interpreter_ by clicking "..."
 3. Click "+" and select "From Docker, Vagrant, VM, WSL, remote..."
 4. Select existing docker server or click "Docker compose" and press "New..."  in "Server:" field
-5. Select __./mdc-compose.yml__ file in "Configuration files:" field
+5. Select __./mdc-compose-final.yml__ file in "Configuration files:" field
 6. Select __webserver__ in "Service:" field
 7. Press "OK"
 8. Switch lifecycle to __Connect to existing container ('docker-compose exec')__

@@ -7,7 +7,7 @@ export MDC_BASEDIR="${MDC_BASEDIR}"
 
 $MDC_BASEDIR/bin/mdc down
 
-configfilename="mdc-compose.yml"
+configfilename="mdc-compose-final.yml"
 if [ -f $configfilename ]; then
     rm $configfilename
 fi

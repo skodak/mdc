@@ -8,10 +8,10 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
-# Use mdc-compose.yml as much as possible,
+# Use mdc-compose-final.yml as much as possible,
 # but allow devs to make tweaks in it,
 # it is deleted only from bin/mdc-rebuild and bin/mdc-down scripts.
-finalconfigfilename="mdc-compose.yml"
+finalconfigfilename="mdc-compose-final.yml"
 if [ -f $finalconfigfilename ]; then
     docker compose -f $finalconfigfilename "$@"
     exit 0
@@ -26,45 +26,45 @@ if [ ! -f "$configfile" ] && [ -f 'lib/moodlelib.php' ]; then
     cp "${MDC_BASEDIR}/templates/config.php" config.php
 fi
 
-dockercompose="-f ${MDC_BASEDIR}/webserver.yml"
-dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.yml"
-dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.${MDC_DB_TYPE}.yml"
-dockercompose="${dockercompose} -f ${MDC_BASEDIR}/exttests.yml"
-dockercompose="${dockercompose} -f ${MDC_BASEDIR}/selenium.yml"
-dockercompose="${dockercompose} -f ${MDC_BASEDIR}/mailpit.yml"
+dockercompose="-f ${MDC_BASEDIR}/compose-webserver.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.${MDC_DB_TYPE}.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-exttests.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-selenium.yml"
+dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-mailpit.yml"
 
 # Allow shared mdc-config file.
 configfile="${MDC_BASEDIR}/shared/mdc-config.php"
 if [ -f "$configfile" ]; then
     echo "[mdc] Using ${configfile}"
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.mdc-config-shared.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.mdc-config-shared.yml"
 fi
 
 # Allow extra mdc-config file in non-moodle directories too.
 configfile="mdc-config.php"
 if [ -f "$configfile" ]; then
     echo "[mdc] Using ${MDC_PROJECTDIR}/${configfile}"
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.mdc-config-project.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.mdc-config-project.yml"
 fi
 
 # Special configuration for obsolete MySQL 5.7
 if [ "$MDC_DB_TYPE" == "mysqli" ] && [[ "${MDC_DB_VERSION}" == "5.7."* ]]; then
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.mysqli.legacy.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.mysqli.legacy.yml"
 fi
 
 # Browser debug port.
 if [[ ! -z "$MDC_BROWSER_DEBUG_PORT" ]]; then
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/selenium.debug.port.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-selenium.debug.port.yml"
 fi
 
 # External services
 if [ ! -z "$MDC_PHPUNIT_EXTERNAL_SERVICES" ]; then
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/phpunit-external-services.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-phpunit-external-services.yml"
 fi
 
 # BBB Mock
 if [ ! -z "$MDC_BBB_MOCK" ]; then
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/bbb-mock.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-bbb-mock.yml"
 fi
 
 #  Faildump directory.
@@ -73,7 +73,7 @@ if [ ! -z "$MDC_BEHAT_FAILDUMP_PATH" ]; then
         echo 'Error: MDC_BEHAT_FAILDUMP_PATH is not an existing directory'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.behatfaildump.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.behatfaildump.yml"
 fi
 
 #  Backups directory.
@@ -82,8 +82,8 @@ if [ ! -z "$MDC_BACKUPS_PATH" ]; then
         echo 'Error: MDC_BACKUPS_PATH is not an existing directory'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.backups.yml"
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/db.backups.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.backups.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.backups.yml"
 fi
 
 #  PHP error logs directory.
@@ -95,20 +95,20 @@ if [ ! -z "$MDC_PHP_ERROR_LOG_PATH" ]; then
         echo 'Error: MDC_PHP_ERROR_LOG_PATH file cannot be created'
         exit 1
     fi
-    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/webserver.phperrorlog.yml"
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.phperrorlog.yml"
 fi
 
 # Apply user overrides at the very end!
 
 # Apply shared customisations.
-sharedfile="${MDC_BASEDIR}/shared/mdc.yml"
+sharedfile="${MDC_BASEDIR}/shared/mdc-compose.yml"
 if [ -f "${sharedfile}" ]; then
   echo "[mdc] Using ${sharedfile}"
   dockercompose="${dockercompose} -f ${sharedfile}"
 fi
 
 # Finally any other custom project overrides.
-filename="mdc.yml"
+filename="mdc-compose.yml"
 if [ -f $filename ]; then
     echo "[mdc] Using ${MDC_PROJECTDIR}/${filename}"
     dockercompose="${dockercompose} -f ${filename}"

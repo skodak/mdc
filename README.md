@@ -8,7 +8,7 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 
 * No need to understand Docker commands and parameters
 * No need for Homebrew or MacPorts installation
-* Easy configuration via `mdc.env`, `mdc-config.php` and `mdc.yml` files
+* Easy configuration via `mdc.env`, `mdc-config.php` and `mdc-compose.yml` files
 * Useful helper scripts for everyday tasks
 * Backup and restore of Moodle site data
 * Noticeably better performance than Docker Desktop for Mac
@@ -154,7 +154,7 @@ List of often used MDC commands with short descriptions:
 
 Each project directory must contain `mdc.env` file which includes Moodle and site configuration settings.
 It is also possible to modify default config.php settings by adding `mdc-config.php` file.
-File `mdc.yml` may contain project specific Docker Compose additions.
+File `mdc-compose.yml` may contain project specific Docker Compose additions.
 
 ### Environment variables
 
@@ -194,7 +194,7 @@ Examples can be found in [mdc/templates/mdc-config.php](templates/mdc-config.php
 
 Instead of environmental variables it is also possible to supply extra compose configuration file.
 
-For example this `mdc.yml` adds adminer to project:
+For example this `mdc-compose.yml` adds adminer to project:
 
 ```yaml
 services:
@@ -213,7 +213,7 @@ Configuration options that apply to all projects can be included in _shared_ sub
 
 * `mdc/shared/mdc.env` - environment defaults for all project
 * `mdc/shared/mdc-config.php` - config.php overrides for all projects
-* `mdc/shared/mdc.yml` - addition Composer changes for all projects
+* `mdc/shared/mdc-compose.yml` - addition Composer changes for all projects
 
 The internal format of these shared files is the same as project configuration files.
 
@@ -456,7 +456,7 @@ cd devdocs
 ```bash
 touch mdc.env
 ```
-3. Add `mdc.yml` file containing webserver port override:
+3. Add `mdc-compose.yml` file containing webserver port override:
 ```
 services:
   webserver:

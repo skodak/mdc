@@ -6,7 +6,7 @@ if [ ! -f "mdc.env" ]; then
     echo "ERROR: mdc.env file not found in current directory"
     exit 1
 fi
-if [ ! -f "${MDC_BASEDIR}/webserver.yml" ]; then
+if [ ! -f "${MDC_BASEDIR}/compose-webserver.yml" ]; then
     echo "ERROR: invalid MDC_BASEDIR=$MDC_BASEDIR"
     exit 1
 fi
