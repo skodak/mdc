@@ -13,6 +13,9 @@ To enable PHP Xdebug debug mode add following into your `mdc.env` file and do a 
 MDC_PHP_XDEBUG_MODE=debug
 ```
 
+For performance reasons you may set `MDC_PHP_XDEBUG_MODE=off` and then instead of `php` use `php-debug`
+in report interpreter settings.
+
 ## Configure remote PHP CLI interpreter
 
 Then verify mdc instance is up and running - see Quick start section above.
@@ -27,6 +30,7 @@ Then open your Moodle project directory in PhpStorm and add a remote PHP CLI int
 6. Select __webserver__ in "Service:" field
 7. Press "OK"
 8. Switch lifecycle to __Connect to existing container ('docker-compose exec')__
+9. If you have set `MDC_PHP_XDEBUG_MODE=off` for performance reasons, then change PHP binary to `php-debug`
 9. Press reload icon in "PHP executable:" field, PhpStorm should detect correct PHP binary
 10. if you enabled Xdebug you should also see "Debugger: Xdebug 3.x.x" 
 11. You should customise the interpreter name at the top and make it "Visible only for this project"

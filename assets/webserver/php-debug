@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+set -e
+
+export XDEBUG_MODE=debug
+/usr/local/bin/php "$@"
