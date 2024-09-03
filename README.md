@@ -40,8 +40,8 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
 - [Behat testing](#behat-testing)
   - [VNC debugging](#vnc-debugging)
   - [Headless browser inspection](#headless-browser-inspection-)
+- [IDE configuration](#ide-configuration)
 - [Advanced usage examples](#advanced-usage-examples)
-  - [IDE configuration](#ide-configuration)
   - [Grunt](#grunt)
   - [Shared Moodle codebase](#shared-moodle-codebase)
   - [Non-moodle projects](#non-moodle-projects)
@@ -334,19 +334,19 @@ You will be prompted for a password, the password is 'secret'.
 You should be able to see an empty desktop. When you run any Behat tests with @javascript tag
 a browser will pop up, and you will see the tests execute.
 
-### Headless browser inspection 
+### Browser inspection 
 
 The only way to inspect headless Chromium/Chrome browser is to use remote debug ports.
 Please note the port based debugging may be used also for normal Selenium Chrome/Chromium.
 
-Modify `mdc.env` file to include:
+To enable remote inspection modify `mdc.env` file to include:
 
 ```
 MDC_BEHAT_BROWSER=chromium
 MDC_BEHAT_BROWSER_INSPECT_PORT=9229
 ```
 
-To force headless mode you need to modify `mdc-config.php` file to include:
+Optionally to force headless mode include following in `mdc-config.php` file:
 
 ```php
 $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'headless=new';
@@ -354,16 +354,16 @@ $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOpt
 ```
 
 1. Open Chrome and go to chrome://inspect
-2. add 127.0.0.1:9229
-3. start behat run
-3. Click on Remote Target link with your session
+2. Add 127.0.0.1:9229 if not listed yet 
+3. Start behat run, for example `behat --tags=@javascript`
+4. Click on Remote Target link with your session
 
-## Advanced usage examples
-
-### IDE configuration
+## IDE configuration
 
 * [PhpStorm configuration](./README_PhpStorm.md)
 * [VSCode configuration](./README_VSCode.md)
+
+## Advanced usage examples
 
 ### Grunt
 
