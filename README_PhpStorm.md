@@ -13,7 +13,7 @@ To enable PHP Xdebug debug mode add following into your `mdc.env` file and do a 
 MDC_PHP_XDEBUG_MODE=debug
 ```
 
-## Configure remote docker PHP CLI interpreter
+## Configure remote PHP CLI interpreter
 
 Then verify mdc instance is up and running - see Quick start section above.
 
@@ -22,7 +22,7 @@ Then open your Moodle project directory in PhpStorm and add a remote PHP CLI int
 1. Open "Preferences / PHP"
 2. Add new _CLI Interpreter_ by clicking "..."
 3. Click "+" and select "From Docker, Vagrant, VM, WSL, remote..."
-4. Select existing docker server or click "Docker compose" and press "New..."  in "Server:" field
+4. Select existing Docker server or click "Docker compose" and press "New..."  in "Server:" field
 5. Select __./mdc-compose-final.yml__ file in "Configuration files:" field
 6. Select __webserver__ in "Service:" field
 7. Press "OK"
@@ -36,13 +36,13 @@ Then open your Moodle project directory in PhpStorm and add a remote PHP CLI int
 
 ## Configure remote PHPUnit interpreter
 
-First make sure your docker compose instance is running and PHPUnit was initialised.
+First make sure your MDC project is running and PHPUnit was initialised.
 The remote PHP CLI interpreter must be already configured in your PhpStorm.
 
 1. Run MDC `phpunit-init` command
 2. Open "Preferences / PHP / Test Frameworks"
 3. Click "+" and select "PHPUnit by remote interpreter"
-4. Select your docker interpreter that was created for this project and press "OK"
+4. Select your Docker interpreter that was created for this project and press "OK"
 5. Verify "Path to script:" field is set to `/var/www/html/vendor/autoload.php`
 6. Verify "Default configuration file:" field is enabled and set it to `/var/www/html/phpunit.xml`
 7. Press "Apply" and verify correct PHPUnit version was detected
@@ -54,35 +54,31 @@ To execute PHPUnit tests open a testcase file and click on a green arrow gutter 
 
 ## Configure remote Behat interpreter
 
-First make sure your docker compose project is running and Behat was initialised.
+First make sure your MDC project is running and Behat was initialised.
 The remote PHP CLI interpreter must be already configured in your PhpStorm.
 
-1. Install Node.js Node.js in your macOS (PhpStorm does not support remote Node.js for most of the tasks)
-2. Run MDC `behat-init` command
-3. Open "Preferences / PHP / Test Frameworks"
-4. Click "+" and select "Behat by remote interpreter"
-5. Select your docker interpreter that was created for this project and press "OK"
-6. Set "Path to Behat executable:" field to `/var/www/html/vendor/behat/behat/bin/behat`
-7. Enable "Default configuration file:" field and se it to `/var/www/behatdata/behatrun/behat/behat.yml`
-8. Press "Apply" and verify correct Behat version was detected
-9. Press "OK"
-10. Optionally delete all pre-existing Behat interpreters
+1. Run MDC `behat-init` command
+2. Open "Preferences / PHP / Test Frameworks"
+3. Click "+" and select "Behat by remote interpreter"
+4. Select your Docker interpreter that was created for this project and press "OK"
+5. Set "Path to Behat executable:" field to `/var/www/html/vendor/behat/behat/bin/behat`
+6. Enable "Default configuration file:" field and se it to `/var/www/behatdata/behatrun/behat/behat.yml`
+7. Press "Apply" and verify correct Behat version was detected
+8. Press "OK"
+9. Optionally delete all pre-existing Behat interpreters
 
-You may want to delete all unused interpreters.
-To execute Behat tests open a feature file and click on a green arrow gutter icon.
-If you have configured a VNC port then you can watch the scenario progress in your VPN client.
+## Configure Node.js
 
-## Configure remote Node.js
+Remote Node.js interpreter does not seem to work correctly with MDC containers.
 
-1. Run MDC `node-init` command
-2. Open "Preferences / Languages & Frameworks / Node.js"
-3. Add remote Docker Node.js using "./mdc-compose-final.yml" and "webserver" instance
+You can let PhpStorm download and install Node.js in macOS if necessary,
+see "Preferences / Languages & Frameworks / Node.js".
 
-## Connect PhpStorm to docker database
+## Connect PhpStorm to database container
 
-You can connect to moodle database directly using container domains.
+You can connect to database directly using container domains.
 
-Make sure your docker compose project is running and test site was initialised.
+Make sure your MDC project is running and test site was initialised.
 
 Then setup new database connection in PhpStorm through the exposed port, for example:
 
