@@ -78,13 +78,13 @@ cd /path/to/moodle
 mdc-rebuild
 ```
 7. You can complete the test site installation at [https://webserver.moodle.orb.local/](https://webserver.moodle.orb.local/).
-8. Alternatively you can complete the test site installation from CLI:
+   Alternatively you can complete the test site installation from CLI:
 ```bash
 cd /path/to/moodle
 site-install --agree-license --adminpass="testpassword"
 ```
 9. You can review all outgoing emails at [https://mailpit.moodle.orb.local/](https://mailpit.moodle.orb.local/).
-10. When you are finished with testing you can delete the containers using `mdc-down` script:
+9. When you are finished with testing you can delete the containers:
 ```bash
 cd /path/to/moodle
 mdc-down
@@ -142,7 +142,7 @@ List of often used MDC commands with short descriptions:
 * `mdc-down` - stop and delete project containers, site data and configuration
 * `mdc-backup mybackupname` - create backup named 'mybackupname' using current site data
 * `mdc-restore mybackupname` - restore back 'mybackupname' into empty project containers (requires mdc-rebuild)
-* `site-install --agree-license --adminpass="Test888-Password"` - install Moodle in empty project containers
+* `site-install --agree-license --adminpass="testpassword"` - install Moodle in empty project containers
 * `mdc-php admin/cli/upgrade.php` - execute PHP script using relative path, in this example existing site upgrade is performed
 * `phpunit-init` - initialise PHPUnit test environment
 * `phpunit --filter=enrol_manual` - run PHPUnit tests, in this example limiting scope to enrol_manual plugin
@@ -150,7 +150,7 @@ List of often used MDC commands with short descriptions:
 * `behat --tags=@enrol_manual` - run Behat tests, in this example limiting scope to enrol_manual plugin
 * `mdc-debug webserver` - start OrbStack Debugging Shell inside a webserver container
 * `mdc-bash db` - start normal Bash shell inside a db container
-* `node-init && grunt` - install node in webserver container and run grunt job in a webserver container
+* `node-init && grunt` - install node in webserver container and run grunt job
 
 ## Project configuration
 
@@ -164,8 +164,8 @@ You can change the configuration of the docker images by setting various environ
 This file is usually placed in your Moodle code directory, however it can be placed in any directory because the bin
 scripts are looking for it in the current working directory when executed.
 
-Changes in the environment file should be done **before** calling `mdc-rebuild`. If your containers are running
-first call `mdc-down`, then update the environment file and finally start the containers again.
+After any environment file changes you must call `mdc-rebuild` for them to activate. If you want to keep your existing
+data then use `mdc-backup mypackupxyz` before rebuild and then restore data using `mdc-restore mypackupxyz`.
 
 | Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                                   |
 |----------------------------------|-----------|----------------------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
@@ -190,11 +190,16 @@ When using standard MDC config.php copied from [mdc/templates/config.php](templa
 then it is possible to alter $CFG and other site settings by adding a `mdc-config.php project
 file which gets included close to the end of config.php.
 
+Adding a new project `mdc-config.php` file requires full MDC rebuild, existing file
+can be modified at any time without MDC rebuild.
+
 Examples can be found in [mdc/templates/mdc-config.php](templates/mdc-config.php) file.
 
 ### Additional Composer configuration
 
 Instead of environmental variables it is also possible to supply extra compose configuration file.
+
+Adding or modifying project `mdc-compose.yml` file requires full MDC rebuild.
 
 For example this `mdc-compose.yml` adds adminer to project:
 
@@ -218,6 +223,9 @@ Configuration options that apply to all projects can be included in _shared_ sub
 * `mdc/shared/mdc-compose.yml` - addition Composer changes for all projects
 
 The internal format of these shared files is the same as project configuration files.
+
+Adding or modifying these shared file requires full MDC rebuild. The only exception is modification
+of existing shared mdc-config.php file which can be done at any time.
 
 ## Security recommendations
 
