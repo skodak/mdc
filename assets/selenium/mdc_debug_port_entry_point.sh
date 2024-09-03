@@ -5,4 +5,4 @@ if ! dpkg-query -l socat > dev/null; then
     sudo apt-get -qqy --no-install-recommends install socat
 fi
 
-/opt/bin/entry_point.sh
+source /opt/bin/entry_point.sh
