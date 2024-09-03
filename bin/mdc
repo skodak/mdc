@@ -98,6 +98,12 @@ if [ ! -z "$MDC_PHP_ERROR_LOG_PATH" ]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.phperrorlog.yml"
 fi
 
+# PHP Xdebug.
+if [ ! -z "${MDC_PHP_XDEBUG_MODE}" ]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.phpxdebug.yml"
+fi
+
+
 # Apply user overrides at the very end!
 
 # Apply shared customisations.

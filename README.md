@@ -44,7 +44,6 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
   - [IDE configuration](#ide-configuration)
   - [Grunt](#grunt)
   - [Shared Moodle codebase](#shared-moodle-codebase)
-  - [XDebug live debugging](#xdebug-live-debugging)
   - [Non-moodle projects](#non-moodle-projects)
 
 ## Prerequisites
@@ -174,6 +173,7 @@ data then use `mdc-backup mypackupxyz` before rebuild and then restore data usin
 | `MDC_DB_COLLATION`               | no        | Collation supported by given database        | various                               |                                                                                                                     |
 | `MDC_PHP_VERSION`                | no        | 8.1, 8.2, 8.3 (and obsolete 8.0, 7.4)        | 8.1                                   | The PHP version to use, see tags at https://hub.docker.com/r/skodak2/mdc-php-apache/tags                            |
 | `MDC_PHP_ERROR_LOG_PATH`         | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                |
+| `MDC_PHP_XDEBUG_MODE`            | no        | debug, profile, etc.                         | not set                               | If present PHP Xdebug extension is enabled after rebuild and XDEBUG_MODE is set to this value                       |
 | `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against                                                                                    |
 | `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use, see _selenium-standalone-*_ image tags at https://hub.docker.com/u/selenium   |
 | `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project   |  
@@ -415,44 +415,6 @@ MDC_DB_VERSION=2019-latest
 mdc-rebuild
 ```
 5. Inspect new instance at [https://webserver.moodle-sqlsrv.orb.local/admin/index.php](https://webserver.moodle-sqlsrv.orb.local/admin/index.php)
-
-### XDebug live debugging
-
-The XDebug PHP Extension is not included in this setup and there are reasons not to include it by default.
-
-However, if you want to work with XDebug, especially for live debugging, you can add XDebug to a running webserver container easily:
-
-```bash
-# Install XDebug extension with PECL
-mdc exec webserver pecl install xdebug
-
-# Set some wise setting for live debugging - change this as needed
-read -r -d '' conf <<'EOF'
-; Settings for Xdebug Docker configuration
-xdebug.mode = debug
-xdebug.client_host = host.docker.internal
-EOF
-mdc exec webserver bash -c "echo '$conf' >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"
-
-# Enable XDebug extension in Apache and restart the webserver container
-mdc exec webserver docker-php-ext-enable xdebug
-mdc restart webserver
-```
-
-While setting these XDebug settings depending on your local need, please take special care of the value of `xdebug.client_host` which is needed to connect from the container to the host. The given value `host.docker.internal` is a special DNS name for this purpose within Docker for Windows and Docker for Mac. If you are running on another Docker environment, you might want to try the value `localhost` instead or even set the hostname/IP of the host directly.
-
-After these commands, XDebug ist enabled and ready to be used in the webserver container.
-If you want to disable and re-enable XDebug during the lifetime of the webserver container, you can achieve this with these additional commands:
-
-```bash
-# Disable XDebug extension in Apache and restart the webserver container
-mdc exec webserver sed -i 's/^zend_extension=/; zend_extension=/' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-mdc restart webserver
-
-# Enable XDebug extension in Apache and restart the webserver container
-mdc exec webserver sed -i 's/^; zend_extension=/zend_extension=/' /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
-mdc restart webserver
-```
 
 ### Non-moodle projects
 

@@ -1,4 +1,6 @@
-# VSCOde configuration in MDC (Moodle DOcker Containers) for OrbStack
+# VSCOde configuration in MDC (Moodle Docker Containers) for OrbStack
+
+__NOTE: the page is not maintained, please submit patches if you know how to make this work__
 
 1. Install _Docker_ extension from Microsoft
 2. Add __mdc.env__ to your Moodle project
