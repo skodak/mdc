@@ -8,13 +8,25 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
-$MDC_BASEDIR/bin/mdc down
+name="$( basename "$( pwd -P )" )"
+name=${name//_/-}
 
 configfilename="mdc-compose-final.yml"
 if [ -f $configfilename ]; then
+    deletefile=1
+else
+    deletefile=0
+fi
+
+$MDC_BASEDIR/bin/mdc down
+
+if [ "$deletefile" == 1 ]; then
     rm $configfilename
 fi
 
 $MDC_BASEDIR/bin/mdc up -d
 
 $MDC_BASEDIR/bin/mdc exec db bash mdc_db_wait.sh
+
+echo -e "[mdc] webserver URL: \033[34mhttps://webserver.${name}.orb.local/\033[0m"
+echo -e "[mdc] mailpit URL:   \033[34mhttps://mailpit.${name}.orb.local/\033[0m"
