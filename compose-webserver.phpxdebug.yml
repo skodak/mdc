@@ -2,7 +2,6 @@ services:
   webserver:
     volumes:
       - "${MDC_BASEDIR}/assets/webserver/docker-php-ext-xdebug.ini:/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini:ro"
-      - "${MDC_BASEDIR}/assets/webserver/php-debug:/usr/local/bin/php-debug:ro"
     environment:
       XDEBUG_MODE: "${MDC_PHP_XDEBUG_MODE}"
 

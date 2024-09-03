@@ -9,6 +9,7 @@ services:
       - "${MDC_BASEDIR}/assets/webserver/apache2_deny.conf:/etc/apache2/conf-enabled/apache2_deny.conf:ro"
       - "${MDC_BASEDIR}/assets/webserver/apache2_faildumps.conf:/etc/apache2/conf-enabled/apache2_faildumps.conf:ro"
       - "${MDC_BASEDIR}/assets/webserver/config-moodle.php:/var/www/config-moodle.php:ro"
+      - "${MDC_BASEDIR}/assets/webserver/php-debug:/usr/local/bin/php-debug:ro"
       - "${MDC_BASEDIR}/assets/webserver/nvm_install.sh:/root/nvm_install.sh:ro"
       - "${MDC_BASEDIR}/assets/webserver/npm_install.sh:/root/npm_install.sh:ro"
       - "${MDC_BASEDIR}/assets/webserver/php_wrapper:/root/php_wrapper:ro"
