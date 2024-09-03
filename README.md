@@ -55,11 +55,11 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
 ## Quick start
 
 1. Open terminal and cd to your projects directory
-2. Clone __mdc__ repository (or extract downloaded packege into mdc directory):
+2. Clone __mdc__ repository (or extract downloaded package into mdc directory):
 ```bash
 git clone https://github.com/skodak/mdc.git
 ```
-3. Clone __moodle__ repository (or extract downloaded packege into moodle directory):
+3. Clone __moodle__ repository (or extract downloaded package into moodle directory):
 ```bash
 git clone https://github.com/moodle/moodle.git
 ```
