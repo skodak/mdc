@@ -1,4 +1,4 @@
 services:
   webserver:
     volumes:
-      - "${MDC_BACKUPS_PATH}:/var/www/backups"
+      - "${MDC_BACKUP_PATH}:/var/www/backups"

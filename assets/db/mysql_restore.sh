@@ -2,7 +2,7 @@
 
 if [ ! -d "/backups" ];
 then
-    echo 'Error: MDC_BACKUPS_PATH is not mapped to /backups on db'
+    echo 'Error: MDC_BACKUP_PATH is not mapped to /backups on db'
     exit 1
 fi
 

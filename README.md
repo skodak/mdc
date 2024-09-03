@@ -17,7 +17,7 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 * Amazing [OrbStack debug shell](https://docs.orbstack.dev/features/debug)
 * All Moodle supported PHP versions available with commonly used PHP extensions enabled
 * Supported database servers - PostgreSQL, MariaDB, MySQL and MS SQL Server
-* Behat/Selenium configurations for Chromium, Chrome, Edge and Firefox with VNC and remote port debugging
+* Behat/Selenium configurations for Chromium, Chrome, Edge and Firefox with VNC
 * Behat browser inspection via "chrome://inspect" (Chrome/Chromium only)
 * Catch-all SMTP server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
 
@@ -98,8 +98,8 @@ backup and restore scripts it would not be possible to change settings of existi
 MDC backup/restore works only for the same database type, it is not possible to back up data on PostgreSQL
 and later restore them in MySQL.
 
-In default installation the backup files are stored in `shared/backups/` subdirectory of mdc. It is possible
-to change the location by setting a different value for MDC_BACKUPS_PATH environment variable.
+In default installation the backup files are stored in `shared/backup/` subdirectory of mdc. It is possible
+to change the location by setting a different value for MDC_BACKUP_PATH environment variable.
 
 Example of backup and restore:
 
@@ -167,20 +167,20 @@ scripts are looking for it in the current working directory when executed.
 After any environment file changes you must call `mdc-rebuild` for them to activate. If you want to keep your existing
 data then use `mdc-backup mypackupxyz` before rebuild and then restore data using `mdc-restore mypackupxyz`.
 
-| Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                                   |
-|----------------------------------|-----------|----------------------------------------------|---------------------------------------|-------------------------------------------------------------------------------------------------------------------------|
-| `MDC_DB_TYPE`                    | no        | pgsql, mariadb, mysqli, sqlsrv               | pgsql                                 | The database server to run against                                                                                      |
-| `MDC_DB_VERSION`                 | no        | Docker tag - see docker-hub                  | pgsql: 16; mysqli: 8.4; mariadb: 11.4 | The database server docker image tag                                                                                    |
-| `MDC_DB_COLLATION`               | no        | Collation supported by given database        | various                               |                                                                                                                         |
-| `MDC_PHP_VERSION`                | no        | 8.1, 8.2, 8.3 (and obsolete 8.0, 7.4)        | 8.1                                   | The php version to use                                                                                                  |
-| `MDC_PHP_ERROR_LOG_PATH`         | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                    |
-| `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against. Supports a colon notation to specify a specific Selenium docker image version to use. |
-| `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use.                                                                                   |
-| `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project       |  
-| `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container     |
-| `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                                 |
-| `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                           |
-| `MDC_BACKUPS_PATH`               | no        | Path to backup directory on your file system | subdirectory shared/backups/ of mdc   | Use for alternative backups path outside of containers                                                                  |
+| Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                               |
+|----------------------------------|-----------|----------------------------------------------|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| `MDC_DB_TYPE`                    | no        | pgsql, mariadb, mysqli, sqlsrv               | pgsql                                 | The database server to run against                                                                                  |
+| `MDC_DB_VERSION`                 | no        | Docker tag - see docker-hub                  | pgsql: 16; mysqli: 8.4; mariadb: 11.4 | The database server docker image tag                                                                                |
+| `MDC_DB_COLLATION`               | no        | Collation supported by given database        | various                               |                                                                                                                     |
+| `MDC_PHP_VERSION`                | no        | 8.1, 8.2, 8.3 (and obsolete 8.0, 7.4)        | 8.1                                   | The PHP version to use, see tags at https://hub.docker.com/r/skodak2/mdc-php-apache/tags                            |
+| `MDC_PHP_ERROR_LOG_PATH`         | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                |
+| `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against                                                                                    |
+| `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use, see _selenium-standalone-*_ image tags at https://hub.docker.com/u/selenium   |
+| `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project   |  
+| `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container |
+| `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                             |
+| `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                       |
+| `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory shared/backup/ of mdc    | Use for alternative backup path outside of containers                                                               |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
 

@@ -2,7 +2,7 @@
 
 if [ ! -d "/var/www/backups" ];
 then
-    echo 'Error: MDC_BACKUPS_PATH is not mapped to /var/www/backups on webserver'
+    echo 'Error: MDC_BACKUP_PATH is not mapped to /var/www/backups on webserver'
     exit 1
 fi
 

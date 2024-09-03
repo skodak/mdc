@@ -38,8 +38,8 @@ export COMPOSE_PROJECT_NAME="$name";
 
 # Default values - keep them in sync with templates/mdc.env file.
 
-if [ -z "${MDC_BACKUPS_PATH}" ]; then
-    export MDC_BACKUPS_PATH="${MDC_BASEDIR}/shared/backups"
+if [ -z "${MDC_BACKUP_PATH}" ]; then
+    export MDC_BACKUP_PATH="${MDC_BASEDIR}/shared/backups"
 fi
 
 export MDC_PHP_VERSION="${MDC_PHP_VERSION:-8.1}"

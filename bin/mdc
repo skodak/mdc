@@ -77,9 +77,9 @@ if [ ! -z "$MDC_BEHAT_FAILDUMP_PATH" ]; then
 fi
 
 #  Backups directory.
-if [ ! -z "$MDC_BACKUPS_PATH" ]; then
-    if [ ! -d "$MDC_BACKUPS_PATH" ]; then
-        echo 'Error: MDC_BACKUPS_PATH is not an existing directory'
+if [ ! -z "$MDC_BACKUP_PATH" ]; then
+    if [ ! -d "$MDC_BACKUP_PATH" ]; then
+        echo 'Error: MDC_BACKUP_PATH is not an existing directory'
         exit 1
     fi
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-webserver.backups.yml"

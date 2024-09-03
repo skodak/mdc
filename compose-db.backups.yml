@@ -1,4 +1,4 @@
 services:
   db:
     volumes:
-      - "${MDC_BACKUPS_PATH}:/backups"
+      - "${MDC_BACKUP_PATH}:/backups"
