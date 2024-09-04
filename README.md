@@ -97,7 +97,7 @@ backup and restore scripts it would not be possible to change settings of existi
 MDC backup/restore works only for the same database type, it is not possible to back up data on PostgreSQL
 and later restore them in MySQL.
 
-In default installation the backup files are stored in `shared/backup/` subdirectory of mdc. It is possible
+In default installation the backup files are stored in `shared/backups/` subdirectory of mdc. It is possible
 to change the location by setting a different value for MDC_BACKUP_PATH environment variable.
 
 Example of backup and restore:
@@ -183,7 +183,7 @@ data then use `mdc-backup mypackupxyz` before rebuild and then restore data usin
 | `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                       |
 | `MDC_INSTALL_AGREE_LICENSE`      | no        | any value                                    | not set                               | Non-empty value means automatically agree to license in site-install command                                        |
 | `MDC_INSTALL_ADMINPASS`          | no        | any value                                    | not set                               | Non-empty value is administrator password for site-install command                                                  |
-| `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory shared/backup/ of mdc    | Use for alternative backup path outside of containers                                                               |
+| `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory mdc/shared/backups/      | Use for alternative backup path outside of containers                                                               |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
 
