@@ -1,9 +1,9 @@
 services:
   selenium:
     volumes:
-      - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port_entry_point.sh:/mdc_debug_port_entry_point.sh:ro"
+      - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port_entry_point.sh:/opt/bin/mdc_debug_port_entry_point.sh:ro"
       - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port.conf:/etc/supervisor/conf.d/mdc_debug_port.conf:ro"
-      - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port.sh:/mdc_debug_port.sh:ro"
-    command: /mdc_debug_port_entry_point.sh
+      - "${MDC_BASEDIR}/assets/selenium/mdc_debug_port_forward.sh:/opt/bin/mdc_debug_port_forward.sh:ro"
+    command: /opt/bin/mdc_debug_port_entry_point.sh
     ports:
       - "127.0.0.1:${MDC_BEHAT_BROWSER_INSPECT_PORT}:9229"
