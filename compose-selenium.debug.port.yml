@@ -7,3 +7,5 @@ services:
     command: /opt/bin/mdc_debug_port_entry_point.sh
     ports:
       - "127.0.0.1:${MDC_BEHAT_BROWSER_INSPECT_PORT}:9229"
+    environment:
+      OTEL_SDK_DISABLED: true
