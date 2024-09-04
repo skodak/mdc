@@ -19,4 +19,4 @@ if [ ! -z "${MDC_INSTALL_ADMINPASS}" ]; then
     extraoptions="--adminpass=${MDC_INSTALL_ADMINPASS} ${extraoptions}"
 fi
 
-$MDC_BASEDIR/bin/mdc exec webserver php admin/cli/install_database.php --fullname="MDC ${name}" --shortname="mdc_${name}" --summary="MDC test site" --adminemail="admin@example.com" ${extraoptions} "$@"
+$MDC_BASEDIR/bin/mdc exec webserver php admin/cli/install_database.php --fullname="MDC webserver.${name}.orb.local" --shortname="MDC ${name}" --summary="MDC test site" --adminemail="admin@example.com" ${extraoptions} "$@"
