@@ -52,6 +52,10 @@ if [ "$MDC_DB_TYPE" == "mysqli" ] && [[ "${MDC_DB_VERSION}" == "5.7."* ]]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-db.mysqli.legacy.yml"
 fi
 
+if [ ! -z "$MDC_BEHAT_BROWSER_HEADLESS" ]; then
+    dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-selenium.headless.yml"
+fi
+
 # Behat browser debug port for use in "chrome://inspect".
 if [ "${MDC_BEHAT_BROWSER_INSPECT_PORT-0}" -gt 1024 ]; then
     dockercompose="${dockercompose} -f ${MDC_BASEDIR}/compose-selenium.debug.port.yml"

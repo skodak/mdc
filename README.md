@@ -39,7 +39,7 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
 - [PHPUnit testing](#phpunit-testing)
 - [Behat testing](#behat-testing)
   - [VNC debugging](#vnc-debugging)
-  - [Headless browser inspection](#headless-browser-inspection-)
+  - [Browser inspection](#headless-browser-inspection-)
 - [IDE configuration](#ide-configuration)
 - [Advanced usage examples](#advanced-usage-examples)
   - [Grunt](#grunt)
@@ -176,6 +176,7 @@ data then use `mdc-backup mypackupxyz` before rebuild and then restore data usin
 | `MDC_PHP_XDEBUG_MODE`            | no        | debug, profile, etc.                         | not set                               | If present PHP Xdebug extension is enabled after rebuild and XDEBUG_MODE is set to this value                       |
 | `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against                                                                                    |
 | `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use, see _selenium-standalone-*_ image tags at https://hub.docker.com/u/selenium   |
+| `MDC_BEHAT_BROWSER_HEADLESS`     | no        | 1 or empty                                   | not set                               | Non-empty value means to use headless browser in Selenium (available in latest Chrome/Chromium only)                |
 | `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project   |  
 | `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container |
 | `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                             |
@@ -346,11 +347,10 @@ MDC_BEHAT_BROWSER=chromium
 MDC_BEHAT_BROWSER_INSPECT_PORT=9229
 ```
 
-Optionally to force headless mode include following in `mdc-config.php` file:
+Optionally to force headless mode also include following:
 
-```php
-$CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'headless=new';
-$CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'no-gpu';
+```
+MDC_BEHAT_BROWSER_HEADLESS=1
 ```
 
 1. Open Chrome and go to chrome://inspect
