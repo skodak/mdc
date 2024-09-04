@@ -6,7 +6,7 @@ MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
 # Load all environment settings.
-source "${MDC_BASEDIR}/bin/include/env.sh"
+source "${MDC_BASEDIR}/bin/include/env.sh" > /dev/null
 
 name="$( basename "$( pwd -P )" )"
 name=${name//_/-}
