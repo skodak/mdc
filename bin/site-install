@@ -5,4 +5,18 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
-$MDC_BASEDIR/bin/mdc exec webserver php admin/cli/install_database.php --fullname="Docker Moodle" --shortname="docker_moodle" --summary="Docker Moodle site" --adminemail="admin@example.com" "$@"
+# Load all environment settings.
+source "${MDC_BASEDIR}/bin/include/env.sh"
+
+name="$( basename "$( pwd -P )" )"
+name=${name//_/-}
+
+extraoptions="";
+if [ ! -z "$MDC_INSTALL_AGREE_LICENSE" ]; then
+    extraoptions="--agree-license ${extraoptions}"
+fi
+if [ ! -z "${MDC_INSTALL_ADMINPASS}" ]; then
+    extraoptions="--adminpass=${MDC_INSTALL_ADMINPASS} ${extraoptions}"
+fi
+
+$MDC_BASEDIR/bin/mdc exec webserver php admin/cli/install_database.php --fullname="MDC ${name}" --shortname="mdc_${name}" --summary="MDC test site" --adminemail="admin@example.com" ${extraoptions} "$@"

@@ -67,3 +67,7 @@ else
     echo "Unknown MDC_DB_TYPE=$MDC_DB_TYPE detected"
     exit 1
 fi
+
+# Extra site-install settings
+export MDC_INSTALL_AGREE_LICENSE="${MDC_INSTALL_AGREE_LICENSE:-}"
+export MDC_INSTALL_ADMINPASS="${MDC_INSTALL_ADMINPASS:-}"

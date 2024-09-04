@@ -181,6 +181,8 @@ data then use `mdc-backup mypackupxyz` before rebuild and then restore data usin
 | `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container |
 | `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                             |
 | `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                       |
+| `MDC_INSTALL_AGREE_LICENSE`      | no        | any value                                    | not set                               | Non-empty value means automatically agree to license in site-install command                                        |
+| `MDC_INSTALL_ADMINPASS`          | no        | any value                                    | not set                               | Non-empty value is administrator password for site-install command                                                  |
 | `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory shared/backup/ of mdc    | Use for alternative backup path outside of containers                                                               |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
