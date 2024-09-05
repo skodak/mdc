@@ -17,7 +17,8 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 * Amazing [OrbStack debug shell](https://docs.orbstack.dev/features/debug)
 * All Moodle supported PHP versions available with commonly used PHP extensions enabled
 * Supported database servers - PostgreSQL, MariaDB, MySQL and MS SQL Server
-* Behat/Selenium configurations for Chromium, Chrome, Edge and Firefox with VNC
+* Behat/Selenium configurations for Chromium, Chrome and Firefox
+* Behat browser inspection via "vnc://selenium.<project_directory_name>.orb.local"
 * Behat browser inspection via "chrome://inspect" (Chrome/Chromium only)
 * Catch-all SMTP server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
 
@@ -174,7 +175,7 @@ data then use `mdc-backup mypackupxyz` before rebuild and then restore data usin
 | `MDC_PHP_VERSION`                | no        | 8.1, 8.2, 8.3 (and obsolete 8.0, 7.4)        | 8.1                                   | The PHP version to use, see tags at https://hub.docker.com/r/skodak2/mdc-php-apache/tags                            |
 | `MDC_PHP_ERROR_LOG_PATH`         | no        | Path to PHP error log on your file system    | not set                               | You can specify a different PHP error logging file outside of Docker                                                |
 | `MDC_PHP_XDEBUG_MODE`            | no        | debug, profile, etc.                         | not set                               | If present PHP Xdebug extension is enabled after rebuild and XDEBUG_MODE is set to this value                       |
-| `MDC_BEHAT_BROWSER`              | no        | chromium, chrome, firefox or edge            | chromium                              | The browser to run Behat against                                                                                    |
+| `MDC_BEHAT_BROWSER`              | no        | chromium, chrome or firefox                  | chromium                              | The browser to run Behat against                                                                                    |
 | `MDC_BEHAT_BROWSER_VERSION`      | no        | Docker Hub tag of selenium-standalone image  | 4                                     | Selenium docker image version to use, see _selenium-standalone-*_ image tags at https://hub.docker.com/u/selenium   |
 | `MDC_BEHAT_BROWSER_HEADLESS`     | no        | 1 or empty                                   | not set                               | Non-empty value means to use headless browser in Selenium (available in latest Chrome/Chromium only)                |
 | `MDC_BEHAT_BROWSER_INSPECT_PORT` | no        | 9222, 9229 or similar > 1024                 | not set                               | In "chrome://inspect" add target "127.0.0.1:port" to inspect behat browser, ports must be unique for each project   |  
