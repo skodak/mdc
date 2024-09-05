@@ -73,10 +73,10 @@ $CFG->behat_profiles = array(
 );
 if (getenv('MDC_BEHAT_BROWSER') === 'chromium' || getenv('MDC_BEHAT_BROWSER') === 'chrome') {
     $CFG->behat_profiles['default']['browser'] = 'chrome';
-    $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'remote-debugging-port=9222';
-//    $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'disable-dev-shm-usage';
+    $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['goog:chromeOptions']['args'][] = 'remote-debugging-port=9222';
+//    $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['goog:chromeOptions']['args'][] = 'disable-dev-shm-usage';
     if (getenv('MDC_BEHAT_BROWSER_HEADLESS')) {
-        $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['chromeOptions']['args'][] = 'headless=new';
+        $CFG->behat_profiles['default']['capabilities']['extra_capabilities']['goog:chromeOptions']['args'][] = 'headless=new';
     }
 }
 $CFG->behat_faildump_path = '/var/www/behatfaildumps';
