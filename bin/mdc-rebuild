@@ -28,5 +28,6 @@ $MDC_BASEDIR/bin/mdc up -d
 
 $MDC_BASEDIR/bin/mdc exec db bash /mdc/mdc-wait.sh
 
-echo -e "[mdc] webserver URL: \033[34mhttps://webserver.${name}.orb.local/\033[0m"
-echo -e "[mdc] mailpit URL:   \033[34mhttps://mailpit.${name}.orb.local/\033[0m"
+echo -e "[mdc] database:  \033[34mdb.${name}.orb.local\033[0m"
+echo -e "[mdc] mailpit:   \033[34mhttps://mailpit.${name}.orb.local/\033[0m"
+echo -e "[mdc] webserver: \033[34mhttps://webserver.${name}.orb.local/\033[0m"
