@@ -1,13 +1,15 @@
 #!/usr/bin/env bash
 
+source "${MDC_BASEDIR}/bin/include/functions.sh"
+
 # Check that the configuration file is present,
 # stop if not to prevent accidental creation of unwanted containers.
 if [ ! -f "mdc.env" ]; then
-    echo "ERROR: mdc.env file not found in current directory"
+    mdc_echo_error "mdc.env file not found in current directory"
     exit 1
 fi
 if [ ! -f "${MDC_BASEDIR}/compose-webserver.yaml" ]; then
-    echo "ERROR: invalid MDC_BASEDIR=$MDC_BASEDIR"
+    mdc_echo_error "invalid MDC_BASEDIR=$MDC_BASEDIR"
     exit 1
 fi
 
@@ -64,7 +66,7 @@ elif [ "$MDC_DB_TYPE" == "mariadb" ]; then
 elif [ "$MDC_DB_TYPE" == "sqlsrv" ]; then
     export MDC_DB_VERSION="${MDC_DB_VERSION:-latest}"
 else
-    echo "Unknown MDC_DB_TYPE=$MDC_DB_TYPE detected"
+    mdc_echo_error "Unknown MDC_DB_TYPE=$MDC_DB_TYPE detected"
     exit 1
 fi
 

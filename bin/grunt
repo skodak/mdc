@@ -5,5 +5,7 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
+source "${MDC_BASEDIR}/bin/include/check.sh"
+
 # NVM requires bash rc file.
 $MDC_BASEDIR/bin/mdc exec webserver /bin/bash -c "source /root/.bashrc && node ./node_modules/.bin/grunt $*"

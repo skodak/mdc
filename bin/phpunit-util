@@ -5,4 +5,6 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
+source "${MDC_BASEDIR}/bin/include/check.sh"
+
 $MDC_BASEDIR/bin/mdc exec webserver php admin/tool/phpunit/cli/util.php "$@"
