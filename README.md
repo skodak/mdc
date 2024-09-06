@@ -164,9 +164,9 @@ You can change the configuration of the docker images by setting various environ
 This file is usually placed in your Moodle code directory, however it can be placed in any directory because the bin
 scripts are looking for it in the current working directory when executed.
 
-
-Before making changes in configuration you should call `mdc-down` and afterward you must call `mdc-rebuild` to activate the changes.
-If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild restore data using `mdc-restore mybackupname`.
+After making changes you must call `mdc-rebuild` to activate them.
+If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild
+restore data using `mdc-restore mybackupname`.
 
 | Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                               |
 |----------------------------------|-----------|----------------------------------------------|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|
@@ -204,8 +204,9 @@ Examples can be found in [mdc/templates/mdc-config.php](templates/mdc-config.php
 
 Instead of environmental variables it is also possible to supply extra compose configuration file.
 
-Before making changes in configuration you should call `mdc-down` and afterward you must call `mdc-rebuild` to activate the changes.
-If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild restore data using `mdc-restore mybackupname`.
+After making changes you must call `mdc-rebuild` to activate them.
+If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild
+restore data using `mdc-restore mybackupname`.
 
 For example this `mdc-compose.yaml` adds adminer to project:
 

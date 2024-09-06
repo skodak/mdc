@@ -14,7 +14,7 @@ MDC_PHP_XDEBUG_MODE=debug
 ```
 
 For performance reasons you may set `MDC_PHP_XDEBUG_MODE=off` and then instead of `php` use `php-debug`
-in report interpreter settings.
+in remote interpreter settings.
 
 ## Configure remote PHP CLI interpreter
 
