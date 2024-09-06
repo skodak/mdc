@@ -1,4 +1,0 @@
-services:
-  db:
-    volumes:
-      - "${MDC_BACKUP_PATH}:/backups"

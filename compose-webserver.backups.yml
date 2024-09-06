@@ -1,4 +1,0 @@
-services:
-  webserver:
-    volumes:
-      - "${MDC_BACKUP_PATH}:/var/www/backups"

@@ -9,7 +9,3 @@ services:
     environment:
         ACCEPT_EULA: "y"
         SA_PASSWORD: "m@0dl3ing"
-    volumes:
-      - "${MDC_BASEDIR}/assets/db/mssql_wait.sh:/mdc_db_wait.sh"
-      - "${MDC_BASEDIR}/assets/db/mssql_backup.sh:/mdc_db_backup.sh"
-      - "${MDC_BASEDIR}/assets/db/mssql_restore.sh:/mdc_db_restore.sh"

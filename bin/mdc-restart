@@ -9,4 +9,4 @@ $MDC_BASEDIR/bin/mdc stop
 
 $MDC_BASEDIR/bin/mdc start
 
-$MDC_BASEDIR/bin/mdc exec db bash mdc_db_wait.sh
+$MDC_BASEDIR/bin/mdc exec db bash /mdc/mdc-wait.sh

@@ -30,4 +30,4 @@ then
 fi
 
 cd "$directory"
-$MDC_BASEDIR/bin/mdc exec webserver /root/php_wrapper $relpath "$@"
+$MDC_BASEDIR/bin/mdc exec webserver /mdc/php_wrapper $relpath "$@"

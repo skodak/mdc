@@ -7,7 +7,3 @@ services:
       POSTGRES_PASSWORD: "m@0dl3ing"
       POSTGRES_DB: moodle
       POSTGRES_INITDB_ARGS: "--no-sync"
-    volumes:
-      - "${MDC_BASEDIR}/assets/db/pgsql_wait.sh:/mdc_db_wait.sh"
-      - "${MDC_BASEDIR}/assets/db/pgsql_backup.sh:/mdc_db_backup.sh"
-      - "${MDC_BASEDIR}/assets/db/pgsql_restore.sh:/mdc_db_restore.sh"

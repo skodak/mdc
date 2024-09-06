@@ -11,7 +11,7 @@ export MDC_BASEDIR="${MDC_BASEDIR}"
 name="$( basename "$( pwd -P )" )"
 name=${name//_/-}
 
-configfilename="mdc-compose-final.yml"
+configfilename="compose.yaml"
 if [ -f $configfilename ]; then
     deletefile=1
 else
@@ -26,7 +26,7 @@ fi
 
 $MDC_BASEDIR/bin/mdc up -d
 
-$MDC_BASEDIR/bin/mdc exec db bash mdc_db_wait.sh
+$MDC_BASEDIR/bin/mdc exec db bash /mdc/mdc-wait.sh
 
 echo -e "[mdc] webserver URL: \033[34mhttps://webserver.${name}.orb.local/\033[0m"
 echo -e "[mdc] mailpit URL:   \033[34mhttps://mailpit.${name}.orb.local/\033[0m"

@@ -13,7 +13,7 @@ __NOTE: the page is not maintained, please submit patches if you know how to mak
 3. Update VSCode configuration (note you need to edit project path):
 ```json
 {
-    "better-phpunit.docker.command": "docker compose -f mdc-compose-final.yml exec webserver",
+    "better-phpunit.docker.command": "docker compose -f compose.yaml exec webserver",
     "better-phpunit.docker.enable": true,
     "better-phpunit.phpunitBinary": "vendor/bin/phpunit",
     "better-phpunit.docker.paths": {

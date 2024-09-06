@@ -26,7 +26,7 @@ Then open your Moodle project directory in PhpStorm and add a remote PHP CLI int
 2. Add new _CLI Interpreter_ by clicking "..."
 3. Click "+" and select "From Docker, Vagrant, VM, WSL, remote..."
 4. Select existing Docker server or click "Docker compose" and press "New..."  in "Server:" field
-5. Select __./mdc-compose-final.yml__ file in "Configuration files:" field
+5. Select __./compose.yaml__ file in "Configuration files:" field
 6. Select __webserver__ in "Service:" field
 7. Press "OK"
 8. Switch lifecycle to __Connect to existing container ('docker-compose exec')__
@@ -66,7 +66,7 @@ The remote PHP CLI interpreter must be already configured in your PhpStorm.
 3. Click "+" and select "Behat by remote interpreter"
 4. Select your Docker interpreter that was created for this project and press "OK"
 5. Set "Path to Behat executable:" field to `/var/www/html/vendor/behat/behat/bin/behat`
-6. Enable "Default configuration file:" field and se it to `/var/www/behatdata/behatrun/behat/behat.yml`
+6. Enable "Default configuration file:" field and se it to `/var/www/behatdata/behatrun/behat/behat.yaml`
 7. Press "Apply" and verify correct Behat version was detected
 8. Press "OK"
 9. Optionally delete all pre-existing Behat interpreters

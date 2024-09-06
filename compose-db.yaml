@@ -1,0 +1,8 @@
+services:
+  db:
+    container_name: "${COMPOSE_PROJECT_NAME}-db"
+    volumes:
+      - "${MDC_BACKUP_PATH}:/var/backups"
+      - "${MDC_BASEDIR}/assets/db/${MDC_DB_TYPE}/mdc-wait.sh:/mdc/mdc-wait.sh"
+      - "${MDC_BASEDIR}/assets/db/${MDC_DB_TYPE}/mdc-backup.sh:/mdc/mdc-backup.sh"
+      - "${MDC_BASEDIR}/assets/db/${MDC_DB_TYPE}/mdc-restore.sh:/mdc/mdc-restore.sh"

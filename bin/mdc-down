@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-set -e
 
 thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
@@ -7,7 +6,6 @@ export MDC_BASEDIR="${MDC_BASEDIR}"
 
 $MDC_BASEDIR/bin/mdc down
 
-configfilename="mdc-compose-final.yml"
-if [ -f $configfilename ]; then
-    rm $configfilename
+if [ -f "compose.yaml" ]; then
+    rm compose.yaml
 fi

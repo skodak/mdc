@@ -8,7 +8,7 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 
 * No need to understand Docker commands and parameters
 * No need for Homebrew or MacPorts installation
-* Easy configuration via `mdc.env`, `mdc-config.php` and `mdc-compose.yml` files
+* Easy configuration via `mdc.env`, `mdc-config.php` and `mdc-compose.yaml` files
 * Useful helper scripts for everyday tasks
 * Backup and restore of Moodle site data
 * Noticeably better performance than Docker Desktop for Mac
@@ -156,7 +156,7 @@ List of often used MDC commands with short descriptions:
 
 Each project directory must contain `mdc.env` file which includes Moodle and site configuration settings.
 It is also possible to modify default config.php settings by adding `mdc-config.php` file.
-File `mdc-compose.yml` may contain project specific Docker Compose additions.
+File `mdc-compose.yaml` may contain project specific Docker Compose additions.
 
 ### Environment variables
 
@@ -164,8 +164,9 @@ You can change the configuration of the docker images by setting various environ
 This file is usually placed in your Moodle code directory, however it can be placed in any directory because the bin
 scripts are looking for it in the current working directory when executed.
 
-After any environment file changes you must call `mdc-rebuild` for them to activate. If you want to keep your existing
-data then use `mdc-backup mypackupxyz` before rebuild and then restore data using `mdc-restore mypackupxyz`.
+
+Before making changes in configuration you should call `mdc-down` and afterward you must call `mdc-rebuild` to activate the changes.
+If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild restore data using `mdc-restore mybackupname`.
 
 | Environment Variable             | Mandatory | Allowed values                               | Default value                         | Notes                                                                                                               |
 |----------------------------------|-----------|----------------------------------------------|---------------------------------------|---------------------------------------------------------------------------------------------------------------------|
@@ -203,9 +204,10 @@ Examples can be found in [mdc/templates/mdc-config.php](templates/mdc-config.php
 
 Instead of environmental variables it is also possible to supply extra compose configuration file.
 
-Adding or modifying project `mdc-compose.yml` file requires full MDC rebuild.
+Before making changes in configuration you should call `mdc-down` and afterward you must call `mdc-rebuild` to activate the changes.
+If you want to keep your existing data then use `mdc-backup mybackupname` first and after rebuild restore data using `mdc-restore mybackupname`.
 
-For example this `mdc-compose.yml` adds adminer to project:
+For example this `mdc-compose.yaml` adds adminer to project:
 
 ```yaml
 services:
@@ -224,7 +226,7 @@ Configuration options that apply to all projects can be included in _shared_ sub
 
 * `mdc/shared/mdc.env` - environment defaults for all project
 * `mdc/shared/mdc-config.php` - config.php overrides for all projects
-* `mdc/shared/mdc-compose.yml` - addition Composer changes for all projects
+* `mdc/shared/mdc-compose.yaml` - addition Composer changes for all projects
 
 The internal format of these shared files is the same as project configuration files.
 
@@ -432,7 +434,7 @@ cd devdocs
 ```bash
 touch mdc.env
 ```
-3. Add `mdc-compose.yml` file containing webserver port override:
+3. Add `mdc-compose.yaml` file containing webserver port override:
 ```
 services:
   webserver:

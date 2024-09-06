@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 
-if [ ! -d "/var/www/backups" ];
+if [ ! -d "/var/backups" ];
 then
-    echo 'Error: MDC_BACKUP_PATH is not mapped to /var/www/backups on webserver'
+    echo 'Error: MDC_BACKUP_PATH is not mapped to /var/backups on webserver'
     exit 1
 fi
 
@@ -14,7 +14,7 @@ fi
 
 cd /
 
-if [ ! -f "/var/www/backups/$1_moodledata.tgz" ];
+if [ ! -f "/var/backups/$1_moodledata.tgz" ];
 then
     echo "Backup file not present: $1_moodledata.tgz"
     exit 1
@@ -26,7 +26,7 @@ rm -rf /var/www/moodledata/*
 rm -rf /var/www/behatdata/*
 rm -rf /var/www/phpunitdata/*
 
-tar -xpzf /var/www/backups/$1_moodledata.tgz var/www/moodledata var/www/behatdata var/www/phpunitdata -C /
+tar -xpzf /var/backups/$1_moodledata.tgz var/www/moodledata var/www/behatdata var/www/phpunitdata -C /
 
 if [ -f "/var/www/phpunitdata/.htaccess" ];
 then

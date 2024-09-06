@@ -10,5 +10,5 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-$MDC_BASEDIR/bin/mdc exec webserver bash --login /root/backup.sh $1
-$MDC_BASEDIR/bin/mdc exec db bash mdc_db_backup.sh $1
+$MDC_BASEDIR/bin/mdc exec webserver bash --login /mdc/mdc-backup.sh $1
+$MDC_BASEDIR/bin/mdc exec db bash /mdc/mdc-backup.sh $1
