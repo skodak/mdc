@@ -1,7 +1,8 @@
 <?php  // Moodle configuration file
 
-// NOTE: the simplest way to use this directly is to include this file from main config.php file
-// example: <?php require('/var/www/config-moodle.php');
+// NOTE: the simplest way is to use this file directly,
+// that is to include this from main config.php file, for example:
+//     <?php require('/var/www/config-moodle.php');
 
 if (!getenv('MDC_RUNNING', true)) {
     die('Not a MDC container!');
@@ -13,8 +14,6 @@ $CFG = new stdClass();
 
 ini_set('error_log', '/var/www/php_error.log');
 ini_set('log_errors', '1');
-
-$CFG->site_is_public = false;
 
 $CFG->dbtype    = getenv('MDC_DB_TYPE');
 $CFG->dblibrary = 'native';
@@ -42,25 +41,19 @@ $CFG->smtphosts = 'mailpit:1025';
 $CFG->noreplyaddress = 'noreply@example.com';
 $CFG->site_is_public = false;
 
-// Allow coexisting of sites on different ports.
+// In case somebody is still using port redirection to localhost, make port instances separate.
 $CFG->sessioncookie = getenv('COMPOSE_PROJECT_NAME');
 
 if (strpos($CFG->wwwroot, 'https://') !== 0) {
     $CFG->cookiesecure = false;
 }
 
-// Debug options - possible to be controlled by flag in the future.
 $CFG->debug = (E_ALL | E_STRICT); // DEBUG_DEVELOPER
 $CFG->debugdisplay = 1;
 $CFG->allowthemechangeonurl = 1;
 $CFG->passwordpolicy = 0;
 $CFG->cronclionly = 0;
 $CFG->pathtophp = '/usr/local/bin/php';
-
-$CFG->phpunit_dataroot  = '/var/www/phpunitdata';
-$CFG->phpunit_prefix = 't_';
-define('TEST_EXTERNAL_FILES_HTTP_URL', 'http://exttests:9000');
-define('TEST_EXTERNAL_FILES_HTTPS_URL', 'http://exttests:9000');
 
 $CFG->behat_wwwroot   = 'http://webserver';
 $CFG->behat_dataroot  = '/var/www/behatdata';
@@ -81,6 +74,11 @@ if (getenv('MDC_BEHAT_BROWSER') === 'chromium' || getenv('MDC_BEHAT_BROWSER') ==
 }
 $CFG->behat_faildump_path = '/var/www/behatfaildumps';
 
+
+$CFG->phpunit_dataroot  = '/var/www/phpunitdata';
+$CFG->phpunit_prefix = 't_';
+define('TEST_EXTERNAL_FILES_HTTP_URL', 'http://exttests:9000');
+define('TEST_EXTERNAL_FILES_HTTPS_URL', 'http://exttests:9000');
 define('PHPUNIT_LONGTEST', true);
 
 if (getenv('MDC_PHPUNIT_EXTRAS')) {
