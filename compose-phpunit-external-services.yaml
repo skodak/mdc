@@ -13,7 +13,7 @@ services:
     image: mongo:4.0
   redis:
     container_name: "${COMPOSE_PROJECT_NAME}-redis"
-    image: redis:3
+    image: redis:5
   solr:
     container_name: "${COMPOSE_PROJECT_NAME}-solr"
     image: solr:6.5
