@@ -183,6 +183,8 @@ restore data using `mdc-restore mybackupname`.
 | `MDC_BEHAT_FAILDUMP_PATH`        | no        | Path on your file system                     | not set                               | Behat faildumps are available at https://webserver.moodle.orb.local/_/faildumps/, use for path outside of container |
 | `MDC_PHPUNIT_EXTERNAL_SERVICES`  | no        | any value                                    | not set                               | If set, dependencies for memcached, redis, solr, and openldap are added                                             |
 | `MDC_BBB_MOCK`                   | no        | any value                                    | not set                               | If set the BigBlueButton mock image is started and configured                                                       |
+| `MDC_NGROK_AUTHTOKEN`            | no        | any value                                    | not set                               | ngork authentication token, if not configure auth token must be supplied as first parameter of ngrok-init           |
+| `MDC_NGROK_DOMAIN`               | no        | any value                                    | not set                               | Optional ngork domain                                                                                               |
 | `MDC_INSTALL_AGREE_LICENSE`      | no        | any value                                    | not set                               | Non-empty value means automatically agree to license in site-install command                                        |
 | `MDC_INSTALL_ADMINPASS`          | no        | any value                                    | not set                               | Non-empty value is administrator password for site-install command                                                  |
 | `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory mdc/shared/backups/      | Use for alternative backup path outside of containers                                                               |
@@ -468,3 +470,20 @@ yarn start --host=0.0.0.0
 cd /path/to/devdocs/
 mdc-down
 ```
+
+### Public access via ngrok
+
+If you need public web access to your local test server, then you can use ngrok to forward
+local container port to a public domain address.
+
+__WARNING: It is not recommended to use MDC with non-ephemeral domains because the default site configuration is not secure,
+it is your responsibility to harden the site configuration via mdc-config.php overrides or custom main config.php file.__
+
+1. Sign up for a free or paid ngrok account
+2. Create and copy authentication token
+3. Optionally add token to `MDC_NGROK_AUTHTOKEN` variable in `mdc.evn` file
+4. Install and configure ngrok in webserver container using `ngrok.init`, use auth token as first parameter if not included in mdc.env file 
+5. Optionally create a new domain for ngrok and add it into `MDC_NGROK_DOMAIN` variable in `mdc.env`
+6. Launch ngrok using `ngrok-start`, if you do not specify requested domain as parameter or env setting then random domain is created
+7. Copy/past the ngrok web interface URL to browser and start testing.
+8. Stop ngrok with CTRL+C or `mdc-restart` when finished with testing.

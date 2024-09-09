@@ -13,6 +13,8 @@ services:
       - "${MDC_BASEDIR}/assets/webserver/php-debug:/usr/local/bin/php-debug:ro"
       - "${MDC_BASEDIR}/assets/webserver/nvm_install.sh:/mdc/nvm_install.sh:ro"
       - "${MDC_BASEDIR}/assets/webserver/npm_install.sh:/mdc/npm_install.sh:ro"
+      - "${MDC_BASEDIR}/assets/webserver/ngrok-init.sh:/mdc/ngrok-init.sh:ro"
+      - "${MDC_BASEDIR}/assets/webserver/ngrok-start.sh:/mdc/ngrok-start.sh:ro"
       - "${MDC_BACKUP_PATH}:/var/backups"
       - "${MDC_BASEDIR}/assets/webserver/mdc-backup.sh:/mdc/mdc-backup.sh:ro"
       - "${MDC_BASEDIR}/assets/webserver/mdc-restore.sh:/mdc/mdc-restore.sh:ro"

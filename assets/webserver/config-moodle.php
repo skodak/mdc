@@ -48,6 +48,18 @@ if (strpos($CFG->wwwroot, 'https://') !== 0) {
     $CFG->cookiesecure = false;
 }
 
+// Very basic NGROK support, do not access the site via other URLs.
+if (isset($_SERVER['HTTP_HOST'])) {
+    if (strpos($_SERVER['HTTP_HOST'], '.ngrok-free.app') !== false
+        || strpos($_SERVER['HTTP_HOST'], '.ngrok.app') !== false
+    ) {
+        if (file_exists('/usr/local/bin/ngrok')) {
+            $CFG->wwwroot = 'https://' . $_SERVER['HTTP_HOST'];
+            $CFG->sslproxy  = true;
+        }
+    }
+}
+
 $CFG->debug = (E_ALL | E_STRICT); // DEBUG_DEVELOPER
 $CFG->debugdisplay = 1;
 $CFG->allowthemechangeonurl = 1;
