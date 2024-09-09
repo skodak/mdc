@@ -5,6 +5,15 @@ thisfile=$( readlink "${BASH_SOURCE[0]}" ) || thisfile="${BASH_SOURCE[0]}"
 MDC_BASEDIR="$( cd "$( dirname "$thisfile" )/../" && pwd -P )"
 export MDC_BASEDIR="${MDC_BASEDIR}"
 
+if [ "$1" == "--help" ] || [ "$1" == "-h" ]; then
+    echo "
+Usage: mdc-restore mybackupname
+
+Restores previously backed up MDC database and dataroot.
+"
+    exit 1;
+fi
+
 source "${MDC_BASEDIR}/bin/include/check.sh"
 
 if [ -z "$1" ];
