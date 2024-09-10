@@ -46,11 +46,13 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
   - [Grunt](#grunt)
   - [Shared Moodle codebase](#shared-moodle-codebase)
   - [Non-moodle projects](#non-moodle-projects)
+  - [Public access via ngrok](#public-access-via-ngrok)
 
 ## Prerequisites
 
 * macOS 12.3 or newer is required (Windows and Linux are not supported)
 * latest version of [OrbStack](https://orbstack.dev/) installed
+* basic macOS command line usage skills required
 
 ## Quick start
 
@@ -84,7 +86,7 @@ cd /path/to/moodle
 site-install --agree-license --adminpass="testpassword"
 ```
 9. You can review all outgoing emails at [https://mailpit.moodle.orb.local/](https://mailpit.moodle.orb.local/).
-9. When you are finished with testing you can delete the containers:
+10. When you are finished with testing you can delete the containers:
 ```bash
 cd /path/to/moodle
 mdc-down
@@ -98,31 +100,31 @@ backup and restore scripts it would not be possible to change settings of existi
 MDC backup/restore works only for the same database type, it is not possible to back up data on PostgreSQL
 and later restore them in MySQL.
 
-In default installation the backup files are stored in `shared/backups/` subdirectory of mdc. It is possible
-to change the location by setting a different value for MDC_BACKUP_PATH environment variable.
+In default installation the backup files are stored in `mdc/shared/backups/` subdirectory. It is possible
+to change the location by setting a different value for `MDC_BACKUP_PATH` in `mdc.env` file.
 
 Example of backup and restore:
 
 1. backup data:
 ```bash
-cd /path/with/mdc.env/
-mdc-backup mybackup
+cd /path/to/moodle/
+mdc-backup mybackup123
 ```
 2. alter mdc.env file or login and change some Moodle data
-3. reset the site
+3. purge all site data
 ```bash
 mdc-rebuild
 ```
 4. restore data into empty containers:
 ```bash
-cd /path/with/mdc.env/
-mdc-restore mybackup
+cd /path/to/moodle/
+mdc-restore mybackup123
 ```
 
 ## MDC commands
 
 _MDC commands_ are helper scripts located in mdc/bin/ directory. You can get help for most of the commands
-by executing them with --help or -h parameter (TODO). 
+by executing them with --help parameter. 
 
 In recent macOS revisions the default shell is _Z Shell_. To allow trouble free use of MDC it is recommended
 to add mdc/bin to your search path in interactive terminals by adding following into your `~/.zshrc` file:
@@ -130,8 +132,7 @@ to add mdc/bin to your search path in interactive terminals by adding following 
 export PATH=$PATH:/path/to/mdc/bin
 ```
 
-Please note that MDC commands can only be executed from directories with _mdc.env_ files because the current
-directory identifies the project for MDC.
+Please note that MDC commands can only be executed from directories with `mdc.env` file.
 
 List of often used MDC commands with short descriptions:
 
@@ -150,7 +151,7 @@ List of often used MDC commands with short descriptions:
 * `behat --tags=@enrol_manual` - run Behat tests, in this example limiting scope to enrol_manual plugin
 * `mdc-debug webserver` - start OrbStack Debugging Shell inside a webserver container
 * `mdc-bash db` - start normal Bash shell inside a db container
-* `node-init && grunt` - install node in webserver container and run grunt job
+* `node-init && grunt` - install Node.js in webserver container and run grunt job
 
 ## Project configuration
 
@@ -160,7 +161,7 @@ File `mdc-compose.yaml` may contain project specific Docker Compose additions.
 
 ### Environment variables
 
-You can change the configuration of the docker images by setting various environment variables in __mdc.env__ file.
+You can change the configuration of the docker images by setting various environment variables in `mdc.env` file.
 This file is usually placed in your Moodle code directory, however it can be placed in any directory because the bin
 scripts are looking for it in the current working directory when executed.
 
@@ -321,8 +322,7 @@ Notes:
 
 * The behat faildump directory is exposed at https://webserver.moodle.orb.local/_/faildumps/.
 * Use `MDC_BEHAT_BROWSER` to switch the browser you want to run the test against.
-  You need to recreate your containers using `mdc-rebuild`,
-  if you make any changes in __mdc.env__ file.
+  You need to recreate your containers using `mdc-rebuild`, if you make any changes in `mdc.env` file.
 
 ### VNC debugging
 
