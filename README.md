@@ -100,7 +100,7 @@ backup and restore scripts it would not be possible to change settings of existi
 MDC backup/restore works only for the same database type, it is not possible to back up data on PostgreSQL
 and later restore them in MySQL.
 
-In default installation the backup files are stored in `mdc/shared/backups/` subdirectory. It is possible
+In default installation the backup files are stored in `~/.mdc/backups/` subdirectory. It is possible
 to change the location by setting a different value for `MDC_BACKUP_PATH` in `mdc.env` file.
 
 Example of backup and restore:
@@ -188,7 +188,7 @@ restore data using `mdc-restore mybackupname`.
 | `MDC_NGROK_DOMAIN`               | no        | any value                                    | not set                               | Optional ngork domain                                                                                               |
 | `MDC_INSTALL_AGREE_LICENSE`      | no        | any value                                    | not set                               | Non-empty value means automatically agree to license in site-install command                                        |
 | `MDC_INSTALL_ADMINPASS`          | no        | any value                                    | not set                               | Non-empty value is administrator password for site-install command                                                  |
-| `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | subdirectory mdc/shared/backups/      | Use for alternative backup path outside of containers                                                               |
+| `MDC_BACKUP_PATH`                | no        | Path to backup directory on your file system | ~/.mdc/backups/                       | Use for alternative backup path outside of containers                                                               |
 
 Examples can be found in [mdc/templates/mdc.env](templates/mdc.env) file.
 
@@ -226,11 +226,11 @@ If used in project directory named 'moodle' then Adminer would be accessible via
 
 ## Shared configuration
 
-Configuration options that apply to all projects can be included in _shared_ subdirectory of mdc:
+Configuration options that apply to all projects can be included in `~/.mdc/` in user directory:
 
-* `mdc/shared/mdc.env` - environment defaults for all project
-* `mdc/shared/mdc-config.php` - config.php overrides for all projects
-* `mdc/shared/mdc-compose.yaml` - addition Composer changes for all projects
+* `~/.mdc/mdc.env` - environment defaults for all project
+* `~/.mdc/mdc-config.php` - config.php overrides for all projects
+* `~/.mdc/mdc-compose.yaml` - addition Composer changes for all projects
 
 The internal format of these shared files is the same as project configuration files.
 

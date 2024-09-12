@@ -17,7 +17,7 @@ currentdir="$( pwd -P )";
 export MDC_PROJECTDIR="$currentdir";
 
 envbackup=$( export -p)
-sharedenv="${MDC_BASEDIR}/shared/mdc.env";
+sharedenv="${HOME}/.mdc/mdc.env";
 if [ -f "$sharedenv" ]; then
     echo "[mdc] Using ${sharedenv}"
     export $(grep -v '^#' $sharedenv | xargs)
@@ -41,7 +41,7 @@ export COMPOSE_PROJECT_NAME="$name";
 # Default values - keep them in sync with templates/mdc.env file.
 
 if [ -z "${MDC_BACKUP_PATH}" ]; then
-    export MDC_BACKUP_PATH="${MDC_BASEDIR}/shared/backups"
+    export MDC_BACKUP_PATH="${HOME}/.mdc/backups"
 fi
 
 export MDC_PHP_VERSION="${MDC_PHP_VERSION:-8.1}"
