@@ -34,7 +34,7 @@ _Note from maintainer: This tool if for lazy Moodle devs like me who do not like
 - [Project configuration](#project-configuration)
   - [Environment variables](#environment-variables)
   - [Customisation of config.php](#customisation-of-configphp)
-  - [Additional Composer configuration](#additional-composer-configuration)
+  - [Additional Compose configuration](#additional-compose-configuration)
 - [Shared configuration](#shared-configuration)
 - [Security recommendations](#security-recommendations)
 - [PHPUnit testing](#phpunit-testing)
@@ -203,7 +203,7 @@ can be modified at any time without MDC rebuild.
 
 Examples can be found in [mdc/templates/mdc-config.php](templates/mdc-config.php) file.
 
-### Additional Composer configuration
+### Additional Compose configuration
 
 Instead of environmental variables it is also possible to supply extra compose configuration file.
 
@@ -230,7 +230,7 @@ Configuration options that apply to all projects can be included in `~/.mdc/` in
 
 * `~/.mdc/mdc.env` - environment defaults for all project
 * `~/.mdc/mdc-config.php` - config.php overrides for all projects
-* `~/.mdc/mdc-compose.yaml` - addition Composer changes for all projects
+* `~/.mdc/mdc-compose.yaml` - additional Docker Compose changes for all projects
 
 The internal format of these shared files is the same as project configuration files.
 
