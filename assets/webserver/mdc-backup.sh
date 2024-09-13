@@ -21,3 +21,12 @@ fi
 echo "Backing up web server dataroot into $1_moodledata.tgz"
 
 tar -zcpf $1_moodledata.tgz /var/www/moodledata /var/www/behatdata /var/www/phpunitdata
+
+infofile="$1_info.txt";
+if [ -f "$infofile" ];
+then
+    rm $infofile
+fi
+touch $infofile
+echo "MDC_DB_TYPE: ${MDC_DB_TYPE}" >> $infofile
+echo "MDC_DB_VERSION: ${MDC_DB_VERSION}" >> $infofile
