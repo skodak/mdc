@@ -106,20 +106,20 @@ if (getenv('MDC_PHPUNIT_EXTRAS')) {
     define('TEST_CACHESTORE_MEMCACHED_TESTSERVERS', "memcached0:11211\nmemcached1:11211");
     define('TEST_CACHESTORE_MEMCACHE_TESTSERVERS', "memcached0:11211\nmemcached1:11211");
 
-    define('TEST_LDAPLIB_HOST_URL', 'ldap://ldap');
-    define('TEST_LDAPLIB_BIND_DN', 'cn=admin,dc=openstack,dc=org');
-    define('TEST_LDAPLIB_BIND_PW', 'password');
-    define('TEST_LDAPLIB_DOMAIN', 'ou=Users,dc=openstack,dc=org');
+    define('TEST_LDAPLIB_HOST_URL', 'ldap://ldap:389');
+    define('TEST_LDAPLIB_BIND_DN', 'cn=admin,dc=example,dc=org');
+    define('TEST_LDAPLIB_BIND_PW', 'admin');
+    define('TEST_LDAPLIB_DOMAIN', 'dc=example,dc=org');
 
-    define('TEST_AUTH_LDAP_HOST_URL', 'ldap://ldap');
-    define('TEST_AUTH_LDAP_BIND_DN', 'cn=admin,dc=openstack,dc=org');
-    define('TEST_AUTH_LDAP_BIND_PW', 'password');
-    define('TEST_AUTH_LDAP_DOMAIN', 'ou=Users,dc=openstack,dc=org');
+    define('TEST_AUTH_LDAP_HOST_URL', 'ldap://ldap:389');
+    define('TEST_AUTH_LDAP_BIND_DN', 'cn=admin,dc=example,dc=org');
+    define('TEST_AUTH_LDAP_BIND_PW', 'admin');
+    define('TEST_AUTH_LDAP_DOMAIN', 'dc=example,dc=org');
 
-    define('TEST_ENROL_LDAP_HOST_URL', 'ldap://ldap');
-    define('TEST_ENROL_LDAP_BIND_DN', 'cn=admin,dc=openstack,dc=org');
-    define('TEST_ENROL_LDAP_BIND_PW', 'password');
-    define('TEST_ENROL_LDAP_DOMAIN', 'ou=Users,dc=openstack,dc=org');
+    define('TEST_ENROL_LDAP_HOST_URL', 'ldap://ldap:389');
+    define('TEST_ENROL_LDAP_BIND_DN', 'cn=admin,dc=example,dc=org');
+    define('TEST_ENROL_LDAP_BIND_PW', 'admin');
+    define('TEST_ENROL_LDAP_DOMAIN', 'dc=example,dc=org');
 }
 
 if (getenv('MDC_BBB_MOCK')) {
