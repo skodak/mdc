@@ -1,6 +1,6 @@
 # MDC (Moodle Docker Containers) for OrbStack
 
-MDC is a set of scripts that greatly simplify setting up [Moodle](https://moodle.org/) development
+MDC is a set of scripts that simplifies setting up [Moodle](https://moodle.org/) development
 and test environments on Apple macOS using [OrbStack](https://orbstack.dev/) container manager.
 MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 
@@ -10,19 +10,19 @@ MDC is a fork of [moodle-docker](https://github.com/moodlehq/moodle-docker).
 * No need for Homebrew or MacPorts installation
 * Easy configuration via `mdc.env`, `mdc-config.php` and `mdc-compose.yaml` files
 * Useful helper scripts for everyday tasks
-* Backup and restore of Moodle site data
-* Noticeably better performance than Docker Desktop for Mac
+* Backup and restore of Moodle test site data
+* Noticeably better performance compared to Docker Desktop for Mac
 * [Container domains](https://docs.orbstack.dev/docker/domains) with https instead of confusing port forwarding
 * Fast native [OrbStack app](https://docs.orbstack.dev/menu-bar)
 * Amazing [OrbStack debug shell](https://docs.orbstack.dev/features/debug)
-* All Moodle supported PHP versions available with commonly used PHP extensions enabled
+* All Moodle supported PHP versions available (including commonly used PHP extensions enabled)
 * Supported database servers - PostgreSQL, MariaDB, MySQL and MS SQL Server
 * Behat/Selenium configurations for Chromium, Chrome and Firefox
 * Behat browser inspection via "vnc://selenium.<project_directory_name>.orb.local"
 * Behat browser inspection via "chrome://inspect" (Chrome/Chromium only)
-* Catch-all SMTP server and web interface to messages using [Mailpit](https://github.com/axllent/mailpit)
+* Catch-all SMTP server and email web interface using [Mailpit](https://github.com/axllent/mailpit)
 
-_Note from maintainer: This tool if for lazy Moodle devs like me who do not like CLI scripting. Some of the used bash scripts are probably silly, please help me fix them if you care._ 
+_From maintainer: This tool if for lazy Moodle devs like me who do not like CLI scripting. Some of the used bash scripts are probably a bit naive and silly, please help me fix them if you care._ 
 
 **Table of contents**
 
@@ -245,6 +245,7 @@ of existing shared mdc-config.php file which can be done at any time.
 * Always keep macOS firewall enabled and do not allow Docker to listen to incoming connections
 * Do not install random additional Moodle plugins without security review
 * Do not use Docker tags for obsolete unsupported images unless absolutely necessary (such as PHP 8.0 and 7.4)
+* Please report any security problems or improvement ideas!
 
 ## PHPUnit testing
 
