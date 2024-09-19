@@ -88,16 +88,16 @@ Then setup new database connection in PhpStorm through the exposed port, for exa
 
 1. Open "Database" tab in PhpStorm
 2. Press "+" and select "Database source / PostgreSQL"
-3. Set "User:" field to 'moodle'
-4. Set "Password:" field to 'm@0dl3ing'
-5. Set "Database:" field to 'moodle'
-6. Set "Host:" to db.mdc-moodle.orb.local, keep "Port:" to default database port
+3. Set "User:" field to `moodle`
+4. Set "Password:" field to `m@0dl3ing`
+5. Set "Database:" field to `moodle`
+6. Set "Host:" to "db.<project_directory_name>.orb.local", keep "Port:" to default database port
 7. Press "OK"
 8. Refresh the database metadata
 9. Open "Preferences / Language & Frameworks / SQL Dialects"
-10. Set "Project SQL Dialect:" field to 'PostgreSQL'
+10. Set "Project SQL Dialect:" field to "PostgreSQL"
 11. Press "OK"
-12. Copy __.phpstorm.meta.php__ file from `mdc/templates/` directory into your Moodle project
+12. Copy `.phpstorm.meta.php/dml.php` file from `mdc/templates/` directory into your Moodle project
 13. You may need to use "File / Invalidate caches..." and restart the IDE
 
 As a test open lib/accesslib.php and find some full SQL statement and verify the SQL syntax
