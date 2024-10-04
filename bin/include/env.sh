@@ -22,7 +22,10 @@ if [ -f "$sharedenv" ]; then
     echo "[mdc] Using ${sharedenv}"
     export $(grep -v '^#' $sharedenv | xargs)
 fi
-export $(grep -v '^#' mdc.env | xargs)
+exportdata=$(grep -v '^#' mdc.env | xargs)
+if [ ! -z "$exportdata" ]; then
+    export $exportdata
+fi
 eval "$envbackup"
 echo "[mdc] Using ${MDC_PROJECTDIR}/mdc.env"
 
